@@ -55,11 +55,10 @@ public class MyController {
 		return "register";
 	}
 	
-	@GetMapping("/welcome")
-	public String welcome(Model model)
+	@GetMapping("/dashboard")
+	public String dashboard(Model model)
 	{	
- 		
-		return "welcome";
+		return "dashboard";
 	}
 	
 	//Handler for Registration
