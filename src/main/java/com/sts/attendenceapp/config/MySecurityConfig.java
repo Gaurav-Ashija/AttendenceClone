@@ -49,7 +49,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		.antMatchers("/register","/do_register","/role/**","/dept/**","/images/**","/css/**").permitAll()
 		.anyRequest().authenticated()
-		.and().formLogin().defaultSuccessUrl("/register")
+		.and().formLogin().defaultSuccessUrl("/welcome")
 		.and().csrf().disable();
 		
 		/*

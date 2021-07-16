@@ -55,6 +55,13 @@ public class MyController {
 		return "register";
 	}
 	
+	@GetMapping("/welcome")
+	public String welcome(Model model)
+	{	
+ 		
+		return "welcome";
+	}
+	
 	//Handler for Registration
 	@PostMapping("/do_register")
 	public String registration(@Valid @ModelAttribute("employee") Employee emp,BindingResult result,Model model,
