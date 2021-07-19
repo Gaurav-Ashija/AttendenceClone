@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.sts.attendenceapp.entities.Department;
 
 public interface DepartmentRepository extends JpaRepository<Department, Integer> {
-
+		
+	public Department findBydeptName(String deptName);
 }
