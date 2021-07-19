@@ -1,14 +1,17 @@
 package com.sts.attendenceapp.controller;
 
+import java.io.IOException;
 import java.util.Date;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,14 +20,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import com.sts.attendenceapp.entities.Department;
 import com.sts.attendenceapp.entities.Employee;
+import com.sts.attendenceapp.entities.Mail;
 import com.sts.attendenceapp.entities.Role;
 import com.sts.attendenceapp.repositories.DepartmentRepository;
 import com.sts.attendenceapp.repositories.EmployeeRepository;
 import com.sts.attendenceapp.repositories.RoleRepository;
 import com.sts.attendenceapp.services.EmailService;
+
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.cache.TemplateLoader;
+import freemarker.core.ParseException;
+import freemarker.template.Configuration;
+import freemarker.template.MalformedTemplateNameException;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateNotFoundException;
 
 @Controller
 public class MyController {
@@ -44,6 +57,17 @@ public class MyController {
 	@Autowired
 	private EmailService emailService;
 	
+	@Bean 
+	public FreeMarkerConfigurer freemarkerClassLoaderConfig() {
+	    Configuration configuration = new Configuration(Configuration.VERSION_2_3_27);
+	    TemplateLoader templateLoader = new ClassTemplateLoader(this.getClass(), "/mailtemplate/");
+	    configuration.setTemplateLoader(templateLoader);
+	    FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
+	    freeMarkerConfigurer.setConfiguration(configuration);
+	    return freeMarkerConfigurer; 
+	}
+
+	
 	//Handler for Registration
 	@GetMapping("/register")
 	public String register(Model model)
@@ -61,7 +85,7 @@ public class MyController {
 	//Handler for Registration
 	@PostMapping("/do_register")
 	public String registration(@Valid @ModelAttribute("employee") Employee emp,BindingResult result,Model model,
-			@RequestParam("roleId") String role,@RequestParam("departmentId") String dept)
+			@RequestParam("roleId") String role,@RequestParam("departmentId") String dept) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException
 	{
 		
 	  if(result.hasErrors())
@@ -117,14 +141,14 @@ public class MyController {
 	   System.out.println("Department Details Inserted Successfully");
 	   */
 	   
-	   String toEmail = emp.getEmail();
-	   String userName = emp.getFirstName()+" "+emp.getLastName();
-	   String subject = "Registration Done";
-	   String template = "<button onclick='location.href=http://localhost:8080/register?search=gaurav'>Click Here</button>";
-	   String body = template;
-	   
+	    
 	   try {
-		emailService.sendEmail(toEmail,subject,body);
+
+		   Mail mail = new Mail();
+ 	        mail.setTo(emp.getEmail());
+	        mail.setSubject("Registration Done");
+
+	        emailService.sendEmail(mail);
 		System.out.println("Email Sended Successfully");
 	    }
 	    catch (MessagingException e) {
