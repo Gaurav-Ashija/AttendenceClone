@@ -2,10 +2,10 @@ package com.sts.attendenceapp.controller;
 
 import java.util.Date;
 
-
 import java.util.List;
 import java.util.Optional;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sts.attendenceapp.entities.Department;
@@ -25,6 +24,7 @@ import com.sts.attendenceapp.entities.Role;
 import com.sts.attendenceapp.repositories.DepartmentRepository;
 import com.sts.attendenceapp.repositories.EmployeeRepository;
 import com.sts.attendenceapp.repositories.RoleRepository;
+import com.sts.attendenceapp.services.EmailService;
 
 @Controller
 public class MyController {
@@ -41,6 +41,9 @@ public class MyController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private EmailService emailService;
+	
 	//Handler for Registration
 	@GetMapping("/register")
 	public String register(Model model)
@@ -53,12 +56,6 @@ public class MyController {
 		model.addAttribute("empDepartment", depts);
 		
 		return "register";
-	}
-	
-	@GetMapping("/dashboard")
-	public String dashboard(Model model)
-	{	
-		return "dashboard";
 	}
 	
 	//Handler for Registration
@@ -83,6 +80,7 @@ public class MyController {
 	  String password = "demo";
 	  emp.setPassword(passwordEncoder.encode(password));
 	  
+	  /*
 	  int roleId = Integer.parseInt(role);
 	  int deptId = Integer.parseInt(dept);
 	  
@@ -117,12 +115,33 @@ public class MyController {
 	   empDept.setEmployee(departmentEmployeeList);
 	   deptRepo.save(empDept);
 	   System.out.println("Department Details Inserted Successfully");
+	   */
+	   
+	   String toEmail = emp.getEmail();
+	   String userName = emp.getFirstName()+" "+emp.getLastName();
+	   String subject = "Registration Done";
+	   String template = "<button onclick='location.href=http://localhost:8080/register?search=gaurav'>Click Here</button>";
+	   String body = template;
+	   
+	   try {
+		emailService.sendEmail(toEmail,subject,body);
+		System.out.println("Email Sended Successfully");
+	    }
+	    catch (MessagingException e) {
+		e.printStackTrace();
+	    }
 	  
 	  return "register";
 	}
 	
+	@GetMapping("/dashboard")
+	public String dashboard(Model model)
+	{	
+		return "dashboard";
+	}
+	
 	//Handler for Custom Login
-	@GetMapping("/signup")
+	@GetMapping("/signin")
 	public String customLogin(Model model)
 	{
 		return "login";
