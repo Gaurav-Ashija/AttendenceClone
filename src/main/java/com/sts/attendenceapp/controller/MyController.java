@@ -164,6 +164,12 @@ public class MyController {
 		return "dashboard";
 	}
 	
+	@GetMapping("/resetpassword")
+	public String resetpassword(Model model)
+	{	
+		return "resetpassword";
+	}
+	
 	//Handler for Custom Login
 	@GetMapping("/signin")
 	public String customLogin(Model model)

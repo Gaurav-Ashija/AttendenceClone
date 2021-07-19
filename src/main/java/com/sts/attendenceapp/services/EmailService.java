@@ -8,6 +8,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -32,6 +33,8 @@ public class EmailService {
 	@Autowired
 	private FreeMarkerConfigurer freemarkerConfigurer;
 
+	@Value("${app.url}")
+	private String baseUrl ;
  	
 	public void sendEmail(Mail mail) throws MessagingException, TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException
 	{
@@ -40,9 +43,10 @@ public class EmailService {
         model.put("name", "Hardeep Singh");
         model.put("message", "Random");
         model.put("title", "My message");
-//      model.put(BASE_URL, baseUrl);
         
-		Template freemarkerTemplate = freemarkerConfigurer.getConfiguration().getTemplate("password.ftl");
+        model.put("BASE_URL", baseUrl+"resetpassword?empl");
+        
+		Template freemarkerTemplate = freemarkerConfigurer.getConfiguration().getTemplate("ResetPassword.ftl");
 		String htmlBody = FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerTemplate, model);
 
 	    MimeMessage msg = mailSender.createMimeMessage();	
