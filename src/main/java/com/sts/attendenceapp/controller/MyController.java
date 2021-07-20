@@ -22,10 +22,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import com.sts.attendenceapp.entities.ConfirmationToken;
 import com.sts.attendenceapp.entities.Department;
 import com.sts.attendenceapp.entities.Employee;
 import com.sts.attendenceapp.entities.Mail;
 import com.sts.attendenceapp.entities.Role;
+import com.sts.attendenceapp.repositories.ConfirmationTokenRepository;
 import com.sts.attendenceapp.repositories.DepartmentRepository;
 import com.sts.attendenceapp.repositories.EmployeeRepository;
 import com.sts.attendenceapp.repositories.RoleRepository;
@@ -57,6 +59,9 @@ public class MyController {
 	@Autowired
 	private EmailService emailService;
 	
+	 @Autowired
+	private ConfirmationTokenRepository confirmationTokenRepository;
+
 	@Bean 
 	public FreeMarkerConfigurer freemarkerClassLoaderConfig() {
 	    Configuration configuration = new Configuration(Configuration.VERSION_2_3_27);
@@ -85,7 +90,7 @@ public class MyController {
 	//Handler for Registration
 	@PostMapping("/do_register")
 	public String registration(@Valid @ModelAttribute("employee") Employee emp,BindingResult result,Model model,
-			@RequestParam("roleId") String role,@RequestParam("departmentId") String dept) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException
+			@RequestParam("roleId") String role,@RequestParam("departmentId") String dept) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, MessagingException, IOException, TemplateException 
 	{
 		
 	  if(result.hasErrors())
@@ -94,7 +99,10 @@ public class MyController {
 		  return "register";
 	  }
 		
-	  //emp.setCreatedBy(emp.getId());	
+	  
+	  try {
+		
+ 	  //emp.setCreatedBy(emp.getId());	
 	  emp.setCreatedDate(new Date());
 	  emp.setActive(true);
 	  //emp.setActiveById(emp.getId());
@@ -104,7 +112,7 @@ public class MyController {
 	  String password = "demo";
 	  emp.setPassword(passwordEncoder.encode(password));
 	  
-	  /*
+	  
 	  int roleId = Integer.parseInt(role);
 	  int deptId = Integer.parseInt(dept);
 	  
@@ -116,8 +124,11 @@ public class MyController {
 	  emp.setRole(empRole);
 	  emp.setDepartment(empDept);
 	  
-	  Employee employee = employeeRepo.save(emp);
-	  System.out.println("Employee Details Inserted Successfully");
+	  Employee employee = null;
+	 
+		   employee = employeeRepo.save(emp);
+		  System.out.println("Employee Details Inserted Successfully");
+
 	  
 	  List<Employee> roleEmployeeList = empRole.getEmployee();
 	  roleEmployeeList.add(employee);
@@ -139,22 +150,24 @@ public class MyController {
 	   empDept.setEmployee(departmentEmployeeList);
 	   deptRepo.save(empDept);
 	   System.out.println("Department Details Inserted Successfully");
-	   */
 	   
-	    
-	   try {
+	   ConfirmationToken confirmationToken = new ConfirmationToken(emp);
+       confirmationTokenRepository.save(confirmationToken);
 
-		   Mail mail = new Mail();
+		   	Mail mail = new Mail();
  	        mail.setTo(emp.getEmail());
 	        mail.setSubject("Registration Done");
+	        mail.setUUID(confirmationToken.getConfirmationToken());
 
 	        emailService.sendEmail(mail);
-		System.out.println("Email Sended Successfully");
-	    }
-	    catch (MessagingException e) {
-		e.printStackTrace();
-	    }
-	  
+	        System.out.println("Email Sended Successfully");
+ 	  
+		} catch (Exception e) {
+			System.out.println("Exception : "+ e);
+
+			// TODO: handle exception
+		}
+
 	  return "register";
 	}
 	
@@ -177,4 +190,18 @@ public class MyController {
 		return "login";
 	}
 	
+	
+//	@PostMapping("/resetpassword")
+//	public String resetpassword(@RequestParam("token")String confirmationToken) 
+//     {
+//        ConfirmationToken token = confirmationTokenRepository.findByconfirmationToken(confirmationToken);
+//
+//        if(token != null)
+//        {
+//        	Employee employee= employeeRepo.findByemail(token.getEmployee().getEmail());
+//         	//employee.get
+//     }
+//        
+//        return "hello";
+//}
 }

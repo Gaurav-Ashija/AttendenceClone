@@ -12,4 +12,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	@Query("select e from Employee e where e.email =:email")
 	public Employee getUserByUserName(@Param("email") String email);
 	
+	public Employee findByemail(String email);
+
+	
 }

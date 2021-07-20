@@ -44,7 +44,7 @@ public class EmailService {
         model.put("message", "Random");
         model.put("title", "My message");
         
-        model.put("BASE_URL", baseUrl+"resetpassword?empl");
+        model.put("BASE_URL", baseUrl+"resetpassword?token="+mail.getUUID());
         
 		Template freemarkerTemplate = freemarkerConfigurer.getConfiguration().getTemplate("ResetPassword.ftl");
 		String htmlBody = FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerTemplate, model);

@@ -5,16 +5,16 @@ public class Mail {
 	 	private String from;
 	    private String to;
 	    private String subject;
-	    private String content;
+	    private String UUID;
 
 	    public Mail() {
 	    }
 
-	    public Mail(String from, String to, String subject, String content) {
+	    public Mail(String from, String to, String subject, String UUID) {
 	        this.from = from;
 	        this.to = to;
 	        this.subject = subject;
-	        this.content = content;
+	        this.UUID = UUID;
 	    }
 
 	    public String getFrom() {
@@ -41,12 +41,12 @@ public class Mail {
 	        this.subject = subject;
 	    }
 
-	    public String getContent() {
-	        return content;
+	    public String getUUID() {
+	        return UUID;
 	    }
 
-	    public void setContent(String content) {
-	        this.content = content;
+	    public void setUUID(String UUID) {
+	        this.UUID = UUID;
 	    }
 
 	    @Override
@@ -55,7 +55,7 @@ public class Mail {
 	                "from='" + from + '\'' +
 	                ", to='" + to + '\'' +
 	                ", subject='" + subject + '\'' +
-	                ", content='" + content + '\'' +
+	                ", UUID='" + UUID + '\'' +
 	                '}';
 	    }
 
