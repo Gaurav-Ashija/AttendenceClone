@@ -39,7 +39,6 @@ public class DeptController {
 		}
 	    return new ResponseEntity<Object>("Role Already Created", HttpStatus.BAD_REQUEST);
 	    
-	     
- 	
+	   
 	}	
 }

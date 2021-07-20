@@ -177,12 +177,6 @@ public class MyController {
 		return "dashboard";
 	}
 	
-	@GetMapping("/resetpassword")
-	public String resetpassword(Model model)
-	{	
-		return "resetpassword";
-	}
-	
 	//Handler for Custom Login
 	@GetMapping("/signin")
 	public String customLogin(Model model)
@@ -191,17 +185,23 @@ public class MyController {
 	}
 	
 	
-//	@PostMapping("/resetpassword")
-//	public String resetpassword(@RequestParam("token")String confirmationToken) 
-//     {
-//        ConfirmationToken token = confirmationTokenRepository.findByconfirmationToken(confirmationToken);
-//
-//        if(token != null)
-//        {
-//        	Employee employee= employeeRepo.findByemail(token.getEmployee().getEmail());
-//         	//employee.get
-//     }
-//        
-//        return "hello";
-//}
+	@GetMapping("/resetpassword")
+	public String resetpassword(@RequestParam("token") String confirmationToken) 
+     {
+		System.out.println("Token is " + confirmationToken);
+		
+        ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+        if(token != null)
+        {
+        	Employee employee= employeeRepo.findByemail(token.getEmployee().getEmail());
+         	boolean resetFlag = employee.isPasswordReset();
+         	if(!resetFlag)
+         	{
+         		
+         	}
+        }
+        
+        return "resetpassword";
+    }
+	
 }
