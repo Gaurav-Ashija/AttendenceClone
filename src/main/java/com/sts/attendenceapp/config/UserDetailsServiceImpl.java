@@ -1,6 +1,7 @@
 package com.sts.attendenceapp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +23,14 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 		{
 			throw new UsernameNotFoundException("User Not Found");
 		}
+		else
+		{
+			  if(!employee.isPasswordReset())
+  		       {
+				  throw new BadCredentialsException("Please Check Username and Password");
+    		   }
+		}
+		
 		
 		CustomUserDetails customUserDetails = new CustomUserDetails(employee);
 		

@@ -9,6 +9,15 @@
                     <tr>
                         <td style="height:20px;">&nbsp;</td>
                     </tr>
+
+                    <tr>
+                        <td style="float:left;">Dear ${userName},</td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="height:20px;">&nbsp;</td>
+                    </tr>
+                    
                     <tr>
                         <td>
                             <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"

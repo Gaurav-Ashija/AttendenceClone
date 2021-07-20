@@ -36,11 +36,12 @@ public class EmailService {
 	@Value("${app.url}")
 	private String baseUrl ;
  	
-	public void sendEmail(Mail mail) throws MessagingException, TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException
+	public void sendEmail(Mail mail,String userName) throws MessagingException, TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException
 	{
 		
 		Map<String, Object> model = new HashMap<String, Object>();
-        
+		
+		model.put("userName", userName);
         model.put("BASE_URL", baseUrl+"resetpassword?token="+mail.getUUID());
         
 		Template freemarkerTemplate = freemarkerConfigurer.getConfiguration().getTemplate("ResetPassword.ftl");

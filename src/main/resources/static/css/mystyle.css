@@ -56,6 +56,22 @@ body
   outline:none;
 }
 
+.login-dark form .btn-login {
+  background:#F1C40F;
+  border:none;
+  border-radius:4px;
+  padding:11px;
+  box-shadow:none;
+  margin-top:26px;
+  text-shadow:none;
+  outline:none;
+}
+
+.login-dark form .btn-login:hover, .login-dark form .btn-login:active {
+  background:#F1C40F;
+  outline:none;
+}
+
 .login-dark form .forgot {
   display:block;
   text-align:center;

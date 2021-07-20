@@ -111,8 +111,7 @@ public class MyController {
 	  emp.setPasswordReset(false);
 	  String password = "demo";
 	  emp.setPassword(passwordEncoder.encode(password));
-	  
-	  
+	 
 	  int roleId = Integer.parseInt(role);
 	  int deptId = Integer.parseInt(dept);
 	  
@@ -158,14 +157,14 @@ public class MyController {
  	        mail.setTo(emp.getEmail());
 	        mail.setSubject("Registration Done");
 	        mail.setUUID(confirmationToken.getConfirmationToken());
+	        String userName = emp.getFirstName()+" "+emp.getLastName();
 
-	        emailService.sendEmail(mail);
+	        emailService.sendEmail(mail,userName);
 	        System.out.println("Email Sended Successfully");
  	  
 		} catch (Exception e) {
 			System.out.println("Exception : "+ e);
-
-			// TODO: handle exception
+			
 		}
 
 	  return "register";
@@ -179,8 +178,8 @@ public class MyController {
 	
 	//Handler for Custom Login
 	@GetMapping("/signin")
-	public String customLogin(Model model)
-	{
+	public String customLogin()
+	{    	 
 		return "login";
 	}
 	
