@@ -184,9 +184,9 @@ public class MyController {
 		return "login";
 	}
 	
-	
+	//Handler for Reset Password
 	@GetMapping("/resetpassword")
-	public String resetpassword(@RequestParam("token") String confirmationToken) 
+	public String resetpassword(@RequestParam("token") String confirmationToken,Model model) 
      {
 		System.out.println("Token is " + confirmationToken);
 		
@@ -194,14 +194,42 @@ public class MyController {
         if(token != null)
         {
         	Employee employee= employeeRepo.findByemail(token.getEmployee().getEmail());
-         	boolean resetFlag = employee.isPasswordReset();
-         	if(!resetFlag)
-         	{
-         		
-         	}
+         	model.addAttribute("email", employee.getEmail());
+         	
         }
         
         return "resetpassword";
     }
+	
+	//Handler for Reset Password
+	    @PostMapping("/reset")
+		public String reset(@RequestParam("employee-email") String email,
+				@RequestParam("password") String password,
+				@RequestParam("confirm-password") String confirmPassword,Model model) 
+	     {
+	       Employee employee = null;
+	    
+	       if(email != null)
+	       {
+	    	   employee = employeeRepo.findByemail(email);
+	    	   if(employee != null)
+	    	   {
+	    		   if(!employee.isPasswordReset())
+	    		   {
+	    			   employee.setPassword(passwordEncoder.encode(password));
+	    			   employee.setPasswordReset(true);
+	    			   employeeRepo.save(employee);
+	    			   model.addAttribute("reset_success", "Password Reset Successfully");
+	    		   }
+	    		   else
+	    		   {
+	    			   model.addAttribute("reset_failure", "You Have Already Reset Your Password");
+	    		   }
+	    	   }
+	    	   
+	       }
+	    
+	    	return "resetpassword";
+	     }
 	
 }

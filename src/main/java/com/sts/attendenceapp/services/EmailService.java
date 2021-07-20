@@ -40,9 +40,6 @@ public class EmailService {
 	{
 		
 		Map<String, Object> model = new HashMap<String, Object>();
-        model.put("name", "Hardeep Singh");
-        model.put("message", "Random");
-        model.put("title", "My message");
         
         model.put("BASE_URL", baseUrl+"resetpassword?token="+mail.getUUID());
         

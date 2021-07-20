@@ -1,10 +1,4 @@
 
-                                 <p>Dear ${name},</p>
-                                <p>Dear ${message},</p>
-                                <p>Dear ${title},</p>
-                                <p>Dear ${BASE_URL},</p>
-                
-       
                 <table style="background-color: #f2f3f8; max-width:670px;  margin:0 auto;" width="100%" border="0"
                     align="center" cellpadding="0" cellspacing="0">
                    
@@ -33,7 +27,7 @@
                                             password has been generated for you. To reset your password, click the
                                             following link and follow the instructions.
                                         </p>
-                                        <a href="javascript:void(0);"
+                                        <a href="${BASE_URL}"
                                             style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Reset
                                             Password</a>
                                     </td>
@@ -53,10 +47,12 @@
                     <tr>
                         <td style="height:80px;">&nbsp;</td>
                     </tr>
-                </table>
-            <td align="right" style="text-decoration:none;padding:10px 20px 10px"><p style="font-size:11px;text-align:center;padding-bottom:15px;font-family:Arial"> NOTE: Please DO NOT REPLY to this email as it is not monitored by anyone. </p>
+                    <tr>
+                        <td align="right" style="text-decoration:none;padding:10px 20px 10px"><p style="font-size:11px;text-align:center;padding-bottom:15px;font-family:Arial"> NOTE: Please DO NOT REPLY to this email as it is not monitored by anyone. </p>
 				  
-                <p style="font-size:11px;text-align:center;padding-bottom:8px;font-family:Arial"> Powered By <a href="https://www.teamcomputers.com/" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.teamcomputers.com/&amp;source=gmail&amp;ust=1595673381457000&amp;usg=AFQjCNGswEGzjpo8LE7KA1RqrJzK2qRiiQ">Team Computers</a></p></td>
+                        <p style="font-size:11px;text-align:center;padding-bottom:8px;font-family:Arial"> Powered By <a href="https://www.teamcomputers.com/" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.teamcomputers.com/&amp;source=gmail&amp;ust=1595673381457000&amp;usg=AFQjCNGswEGzjpo8LE7KA1RqrJzK2qRiiQ">Team Computers</a></p></td>
+                    </tr>
+                </table>
             
 
  
