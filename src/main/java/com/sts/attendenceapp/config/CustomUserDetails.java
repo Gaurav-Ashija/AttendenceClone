@@ -22,7 +22,6 @@ public class CustomUserDetails implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
 		SimpleGrantedAuthority sga = new SimpleGrantedAuthority(employee.getRole().getRoleName());
-	
 		return List.of(sga);
 	}
 

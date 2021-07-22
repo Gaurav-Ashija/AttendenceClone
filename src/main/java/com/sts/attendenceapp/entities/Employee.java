@@ -15,6 +15,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @Table(name = "Employees")
@@ -61,9 +63,11 @@ public class Employee {
 	private String gender;
 
 	@ManyToOne
+	@JsonManagedReference
     private Role role;
 	
 	@ManyToOne
+	@JsonManagedReference
     private Department department;
 	
 	@Column(name = "headId")

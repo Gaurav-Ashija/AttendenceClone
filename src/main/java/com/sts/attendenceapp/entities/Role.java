@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Role {
 	
@@ -20,6 +22,7 @@ public class Role {
 	private String roleDescription;
 	
     @OneToMany(mappedBy = "role")
+    @JsonBackReference
     private List<Employee> employee;
 	
 	public int getRoleId() {
