@@ -57,22 +57,19 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 	
 		http.authorizeRequests()
  		.antMatchers("/signin","/images/**","/css/**","/resetpassword","/reset").permitAll()
-		.antMatchers("/register,do_register").hasRole("TESTER") //ok
-  		.antMatchers("/dashboard").hasAnyRole("TESTER","HR") //ok
- 		.antMatchers(HttpMethod.POST,"/role/addRole,/dept/addDept").hasRole("TESTER")
- 		.antMatchers(HttpMethod.GET,"/role/getRoles,/dept/getDepts").hasRole("TESTER")
- 		.antMatchers(HttpMethod.GET,"/employee/getemployees").hasRole("TESTER")
-
- 		.anyRequest().authenticated();
-//		.and().formLogin().loginPage("/signin").defaultSuccessUrl("/dashboard");
+		.antMatchers("/register,do_register").hasRole("USER") //ok
+  		.antMatchers("/dashboard").hasAnyRole("USER","HR") //ok
+ 		.antMatchers(HttpMethod.POST,"/role/addRole,/dept/addDept").hasRole("USER")
+ 		.antMatchers(HttpMethod.GET,"/role/getRoles,/dept/getDepts").hasRole("USER")
+ 		.antMatchers(HttpMethod.GET,"/employee/getemployees").hasRole("USER")
+        .anyRequest().authenticated()
+		.and().formLogin().loginPage("/signin").defaultSuccessUrl("/dashboard");
  
 		http.csrf().disable()
 		.cors().disable();
-
 		
-		http.headers().frameOptions().disable();
+		//http.headers().frameOptions().disable();
 
 	}
-
 	
 }

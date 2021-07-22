@@ -32,10 +32,6 @@ public class ConfirmationToken {
 		@JoinColumn(nullable = false, name = "emp_id")
 		    private Employee employee;
 			    
-		    public ConfirmationToken() {
-	
-		    }
-		    
 			public ConfirmationToken(Employee employee) {
 		        this.employee = employee;
 		        createdDate = new Date();

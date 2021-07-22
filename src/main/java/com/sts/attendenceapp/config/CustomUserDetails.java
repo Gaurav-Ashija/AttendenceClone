@@ -13,6 +13,10 @@ public class CustomUserDetails implements UserDetails {
 	
 	private Employee employee;
 	
+	public CustomUserDetails() {
+		
+	}
+
 	public CustomUserDetails(Employee employee) {
 		super();
 		this.employee = employee;

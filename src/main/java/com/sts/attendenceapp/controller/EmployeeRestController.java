@@ -18,13 +18,12 @@ import com.sts.attendenceapp.repositories.EmployeeRepository;
 
 @RestController
 @RequestMapping("/employee")
-
 public class EmployeeRestController {
 
 	@Autowired
 	private EmployeeRepository employeeRepo;
 
-	@PreAuthorize("hasRole('ROLE_TESTER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/getemployees")
 	public ResponseEntity<List<Employee>> getEmployees(Authentication authentication)
 	{

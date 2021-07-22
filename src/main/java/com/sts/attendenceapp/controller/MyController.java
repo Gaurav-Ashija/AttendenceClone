@@ -1,17 +1,15 @@
 package com.sts.attendenceapp.controller;
 
 import java.io.IOException;
+
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -65,7 +63,7 @@ public class MyController {
 	
 	 @Autowired
 	private ConfirmationTokenRepository confirmationTokenRepository;
-
+	 	
 	@Bean 
 	public FreeMarkerConfigurer freemarkerClassLoaderConfig() {
 	    Configuration configuration = new Configuration(Configuration.VERSION_2_3_27);
@@ -76,6 +74,23 @@ public class MyController {
 	    return freeMarkerConfigurer; 
 	}
 
+	//Handler for Home page
+     @GetMapping("/")
+	 public String home(Model model)
+	 {
+    	 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	 if (authentication != null) {
+    		 String username = authentication.getName();
+    		 Employee employee = employeeRepo.findByemail(username);
+    		 model.addAttribute("user", employee);
+    		 return "home";
+         }
+    	 else
+    	 {
+    		 return "login";
+    	 }
+		 
+	 }
 	
 	//Handler for Registration
 	@GetMapping("/register")
@@ -177,7 +192,18 @@ public class MyController {
 	@GetMapping("/dashboard")
 	public String dashboard(Model model)
 	{	
-		return "dashboard";
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+   	   if (authentication != null) {
+   		 String username = authentication.getName();
+   		 Employee employee = employeeRepo.findByemail(username);
+   		 model.addAttribute("user", employee);
+   		 return "dashboard";
+        }
+   	    else
+   	    {
+   		 return "login";
+   	    }
+		
 	}
 	
 	//Handler for Custom Login
