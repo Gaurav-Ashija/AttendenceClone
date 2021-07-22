@@ -6,16 +6,34 @@
 <link rel="stylesheet" th:href="@{/css/mystyle.css}" >
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+  	
 </head>
-<body>
+<body onload="startTime()">
    <header th:replace="header::myheader">
    </header>
 
-   <div class="container">
-      <h1>This is Home Page</h1>
-      <p style="text-align: right;">Welcome <span style="font-weight: bold;" th:text="${user.firstName}"></span></p>
-   </div>
+ <div id="container">
+ 
+ 
+   <div class="content">
+	 <h3 id="txt">Timing :</h3>
+	  <h3>Duration : 0 hours</h3>
+  </div>
+ 
+   <div class="button-3">
+    <div class="eff-3"></div>
+    <a href="#"> Punch In </a>
+  </div>
+ 
+    <div class="button-2">
+    <div class="eff-2"></div>
+    <a href="#"> Punch Out</a>
+  </div>
+    
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
    
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+      <script th:src="@{/js/timer.js}"></script>
+      
 </body>
 </html>

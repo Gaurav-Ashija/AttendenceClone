@@ -215,7 +215,14 @@ public class MyController {
             return "login";
         }
 		
-		return "redirect:/";
+		return "redirect:/dashboard";
+	}
+	
+	@GetMapping("/hierarchy")
+	public String hierarchy()
+	{    	 
+ 		
+		return "hierarchy";
 	}
 	
 	//Handler for Reset Password

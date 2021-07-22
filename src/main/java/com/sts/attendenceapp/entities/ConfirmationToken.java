@@ -31,7 +31,9 @@ public class ConfirmationToken {
 		@OneToOne(targetEntity = Employee.class, fetch = FetchType.EAGER)
 		@JoinColumn(nullable = false, name = "emp_id")
 		    private Employee employee;
-			    
+
+		public ConfirmationToken() {}
+
 			public ConfirmationToken(Employee employee) {
 		        this.employee = employee;
 		        createdDate = new Date();

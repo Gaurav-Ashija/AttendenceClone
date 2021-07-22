@@ -1,33 +1,43 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html  xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="ISO-8859-1">
-<title>Header Template</title>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+ 
+	<link rel="stylesheet" href="assets/demo.css">
+	<link rel="stylesheet" href="assets/header-fixed.css">
+	<link href='https://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
+
 </head>
+
 <body>
-    <header th:fragment="myheader">
-        
-        <nav class="navbar navbar-expand-lg navbar-light bg-info">
-		  <div class="container-fluid">
-		    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-		      <span class="navbar-toggler-icon"></span>
-		    </button>
-		    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-		     
-		        <a class="navbar-brand" target="_blank" href="https://www.teamcomputers.com">
-		            <img th:src="@{/images/logo.png}" alt="Team-logo">
-		        </a>
-		     
-		        <div class="col-md-4 offset-md-8" id="nav-links">
-			      <a th:href="@{/register}" class="btn btn-outline-success">Sign up</a>
-			      <a th:href="@{/signin}" class="btn btn-outline-success" >Login</a>
-			      <a th:href="@{/logout}" class="btn btn-outline-success" >Logout</a>
-			    </div>
-		      
-		    </div>
-		  </div>
-        </nav>
-        
-    </header>
+
+<header th:fragment="myheader" class="header-fixed">
+
+	<div class="header-limiter">
+
+ 	  		<h1> <a target="_blank" href="https://www.teamcomputers.com">
+		         <img th:src="@{/images/logo.png}" alt="Team-logo"></a></h1>
+ 
+		<nav>
+					<a > <span style="font-weight: bold;" th:href="@{/}"  >Home</span></a>
+		 			<a > <span style="font-weight: bold;" th:href="@{/dashboard}"  >Dashboard</span></a>
+					<a > <span style="font-weight: bold;"  th:href="@{/register}" >Register Employee</span></a>
+			
+			<a >Welcome <span style="font-weight: bold;" th:text="${user.firstName}"></span></a>
+		 	<a th:href="@{/logout}" >Logout</a>
+ 		</nav>
+
+	</div>
+
+</header>
+
+ <div class="header-fixed-placeholder"></div>
+ 
 </body>
+
 </html>
