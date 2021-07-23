@@ -122,82 +122,97 @@ public class MyController {
 	public String registration(@Valid @ModelAttribute("employee") Employee emp,BindingResult result,Model model,
 			@RequestParam("roleId") String role,@RequestParam("departmentId") String dept) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, MessagingException, IOException, TemplateException 
 	{
-		
-	  if(result.hasErrors())
-	  {
-		  model.addAttribute("employee", emp);
-		  return "register";
-	  }
-		
-	  
-	  try {
-		
- 	  //emp.setCreatedBy(emp.getId());	
-	  emp.setCreatedDate(new Date());
-	  emp.setActive(true);
-	  //emp.setActiveById(emp.getId());
-	  emp.setActiveDate(new Date());
-	  emp.setDeleted(false);
-	  emp.setPasswordReset(false);
-	  String password = "demo";
-	  emp.setPassword(passwordEncoder.encode(password));
-	 
-	  int roleId = Integer.parseInt(role);
-	  int deptId = Integer.parseInt(dept);
-	  
-	  Optional<Role> r = roleRepo.findById(roleId);
-	  Role empRole = r.get();
-	  Optional<Department> d = deptRepo.findById(deptId);
-	  Department empDept = d.get();
-	  
-	  emp.setRole(empRole);
-	  emp.setDepartment(empDept);
-	  
-	  Employee employee = null;
-	 
-		   employee = employeeRepo.save(emp);
-		  System.out.println("Employee Details Inserted Successfully");
 
-	  
-	  List<Employee> roleEmployeeList = empRole.getEmployee();
-	  roleEmployeeList.add(employee);
- 	  
-	  List<Employee> departmentEmployeeList = empDept.getEmployee();
-	  departmentEmployeeList.add(employee);
-  	  
-	  roleId = employee.getRole().getRoleId();
-	  deptId = employee.getDepartment().getDeptId();
-	  
-	   r = roleRepo.findById(roleId);
-	   empRole = r.get();
-	   d = deptRepo.findById(deptId);
-	   empDept = d.get();
-	  
-	   empRole.setEmployee(roleEmployeeList);
-	   roleRepo.save(empRole);
-	   System.out.println("Role Details Inserted Successfully");
-	   empDept.setEmployee(departmentEmployeeList);
-	   deptRepo.save(empDept);
-	   System.out.println("Department Details Inserted Successfully");
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		 
+	  if(authentication == null) 
+	   {
+			return "login";
+	   }
+	  else
+	  {	  
+		  String username = authentication.getName();
+	   	  Employee authEmployee = employeeRepo.findByemail(username);
+	   	  model.addAttribute("user", authEmployee); 
+		
+		  if(result.hasErrors())
+		  {
+			  model.addAttribute("employee", emp);
+			  return "register";
+		  }
+		  else
+		  {	  
 	   
-	   ConfirmationToken confirmationToken = new ConfirmationToken(emp);
-       confirmationTokenRepository.save(confirmationToken);
-
-		   	Mail mail = new Mail();
- 	        mail.setTo(emp.getEmail());
-	        mail.setSubject("Registration Done");
-	        mail.setUUID(confirmationToken.getConfirmationToken());
-	        String userName = emp.getFirstName()+" "+emp.getLastName();
-
-	        emailService.sendEmail(mail,userName);
-	        System.out.println("Email Sended Successfully");
- 	  
-		} catch (Exception e) {
-			System.out.println("Exception : "+ e);
+		  try {
 			
-		}
-
-	  return "register";
+	 	  //emp.setCreatedBy(emp.getId());	
+		  emp.setCreatedDate(new Date());
+		  emp.setActive(true);
+		  //emp.setActiveById(emp.getId());
+		  emp.setActiveDate(new Date());
+		  emp.setDeleted(false);
+		  emp.setPasswordReset(false);
+		  String password = "demo";
+		  emp.setPassword(passwordEncoder.encode(password));
+		 
+		  int roleId = Integer.parseInt(role);
+		  int deptId = Integer.parseInt(dept);
+		  
+		  Optional<Role> r = roleRepo.findById(roleId);
+		  Role empRole = r.get();
+		  Optional<Department> d = deptRepo.findById(deptId);
+		  Department empDept = d.get();
+		  
+		  emp.setRole(empRole);
+		  emp.setDepartment(empDept);
+		  
+		  Employee employee = null;
+		 
+			   employee = employeeRepo.save(emp);
+			  System.out.println("Employee Details Inserted Successfully");
+	
+		  
+		  List<Employee> roleEmployeeList = empRole.getEmployee();
+		  roleEmployeeList.add(employee);
+	 	  
+		  List<Employee> departmentEmployeeList = empDept.getEmployee();
+		  departmentEmployeeList.add(employee);
+	  	  
+		  roleId = employee.getRole().getRoleId();
+		  deptId = employee.getDepartment().getDeptId();
+		  
+		   r = roleRepo.findById(roleId);
+		   empRole = r.get();
+		   d = deptRepo.findById(deptId);
+		   empDept = d.get();
+		  
+		   empRole.setEmployee(roleEmployeeList);
+		   roleRepo.save(empRole);
+		   System.out.println("Role Details Inserted Successfully");
+		   empDept.setEmployee(departmentEmployeeList);
+		   deptRepo.save(empDept);
+		   System.out.println("Department Details Inserted Successfully");
+		   
+		   ConfirmationToken confirmationToken = new ConfirmationToken(emp);
+	       confirmationTokenRepository.save(confirmationToken);
+	
+			   	Mail mail = new Mail();
+	 	        mail.setTo(emp.getEmail());
+		        mail.setSubject("Registration Done");
+		        mail.setUUID(confirmationToken.getConfirmationToken());
+		        String userName = emp.getFirstName()+" "+emp.getLastName();
+	
+		        emailService.sendEmail(mail,userName);
+		        System.out.println("Email Sended Successfully");
+	 	  
+			} catch (Exception e) {
+				System.out.println("Exception : "+ e);
+				
+			}
+		  
+		     return "register";
+		  }
+	  }	  
 	}
 	
 	@GetMapping("/dashboard")
@@ -230,9 +245,20 @@ public class MyController {
 	}
 	
 	@GetMapping("/hierarchy")
-	public String hierarchy()
-	{    	 
-		return "hierarchy";
+	public String hierarchy(Model model)
+	{   
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	   	 if (authentication != null) {
+	   		 String username = authentication.getName();
+	   		 Employee employee = employeeRepo.findByemail(username);
+	   		 model.addAttribute("user", employee);
+	   		 return "hierarchy";
+	        }
+	   	 else
+	   	 {
+	   		 return "login";
+	   	 }
+		
 	}
 	
 	//Handler for Reset Password
