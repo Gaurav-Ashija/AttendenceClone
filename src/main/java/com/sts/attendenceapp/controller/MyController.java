@@ -103,7 +103,18 @@ public class MyController {
 		model.addAttribute("empRole", roles);
 		model.addAttribute("empDepartment", depts);
 		
-		return "register";
+		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		   	 if (authentication != null) {
+		   		 String username = authentication.getName();
+		   		 Employee employee = employeeRepo.findByemail(username);
+		   		 model.addAttribute("user", employee);
+		   		 return "register";
+		        }
+		   	 else
+		   	 {
+		   		 return "login";
+		   	 }
+		
 	}
 	
 	//Handler for Registration
@@ -221,7 +232,6 @@ public class MyController {
 	@GetMapping("/hierarchy")
 	public String hierarchy()
 	{    	 
- 		
 		return "hierarchy";
 	}
 	

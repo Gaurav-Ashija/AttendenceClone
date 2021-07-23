@@ -56,7 +56,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 		*/	
 	
 		http.authorizeRequests()
- 		.antMatchers("/signin","/images/**","/css/**","/resetpassword","/hierarchy","/reset").permitAll()
+ 		.antMatchers("/signin","/images/**","/css/**","/resetpassword","/reset").permitAll()
 		.antMatchers("/register,do_register").hasRole("USER") //ok
   		.antMatchers("/dashboard").hasAnyRole("USER","HR") //ok
   		.antMatchers("/hierarchy").hasAnyRole("USER","HR") //ok
