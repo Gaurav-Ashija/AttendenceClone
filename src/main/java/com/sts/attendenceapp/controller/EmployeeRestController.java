@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sts.attendenceapp.entities.Department;
 import com.sts.attendenceapp.entities.Employee;
-import com.sts.attendenceapp.repositories.DepartmentRepository;
 import com.sts.attendenceapp.repositories.EmployeeRepository;
 
 @RestController
@@ -22,10 +20,9 @@ public class EmployeeRestController {
 
 	@Autowired
 	private EmployeeRepository employeeRepo;
-
-	@PreAuthorize("hasRole('ROLE_USER')")
+	
 	@GetMapping("/getemployees")
-	public ResponseEntity<List<Employee>> getEmployees(Authentication authentication)
+	public ResponseEntity<List<Employee>> getEmployees()
 	{
   		return new ResponseEntity<List<Employee>>(employeeRepo.findAll(), HttpStatus.OK);
  	}

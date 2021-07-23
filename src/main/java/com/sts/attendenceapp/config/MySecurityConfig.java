@@ -60,9 +60,10 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/register,do_register").hasRole("USER") //ok
   		.antMatchers("/dashboard").hasAnyRole("USER","HR") //ok
   		.antMatchers("/hierarchy").hasAnyRole("USER","HR") //ok
-   		  
- 		.antMatchers(HttpMethod.POST,"/role/addRole,/dept/addDept").hasRole("USER")
- 		.antMatchers(HttpMethod.GET,"/role/getRoles,/dept/getDepts").hasRole("USER")
+   	
+  		.and().httpBasic().and().authorizeRequests()
+ 		.antMatchers(HttpMethod.POST,"/role/addRole","/dept/addDept").hasRole("USER")
+ 		.antMatchers(HttpMethod.GET,"/role/getRoles","/dept/getDepts").hasRole("USER")
  		.antMatchers(HttpMethod.GET,"/employee/getemployees").hasRole("USER")
         .anyRequest().authenticated()
 		.and().formLogin().loginPage("/signin").defaultSuccessUrl("/dashboard");
@@ -70,7 +71,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable()
 		.cors().disable();
 		
-		//http.headers().frameOptions().disable();
+		http.headers().frameOptions().disable();
 
 	}
 	

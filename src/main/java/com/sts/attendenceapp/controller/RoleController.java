@@ -48,7 +48,7 @@ public class RoleController {
 		    return new ResponseEntity<Object>("Role Already Created", HttpStatus.BAD_REQUEST);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_TESTER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
  	@GetMapping("/getRoles")
 	public ResponseEntity<Object> getRoles()
 	{
