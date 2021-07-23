@@ -15,21 +15,20 @@
  <div id="container">
  
  
-   <div class="content">
-	 <h3 id="txt">Timing :</h3>
+     <div class="content">
+	 <h3 id="txt"> </h3>
 	  <h3>Duration : 0 hours</h3>
   </div>
+  
+  <form  th:action="@{/punchin}" method="post">
+  	<input type="hidden" id="punchin" name="punchIn" th:value="${user.firstName}">
+     <button type="submit" > Punch In </button>
+  </form>	
  
-   <div class="button-3">
-    <div class="eff-3"></div>
-    <a href="#"> Punch In </a>
-  </div>
- 
-    <div class="button-2">
-    <div class="eff-2"></div>
-    <a href="#"> Punch Out</a>
-  </div>
-    
+     <form  th:action="@{/punchout}" method="post">
+  		<input type="hidden" id="punchout" name="punchOut" th:value="${user.firstName}">
+     <button type="submit"> Punch Out</button>
+   </form>  
 </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
    

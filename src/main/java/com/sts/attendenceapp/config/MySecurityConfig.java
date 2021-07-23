@@ -47,14 +47,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		/*
-		http.authorizeRequests()
-		.antMatchers("/register","/do_register","/signin","/dashboard","/resetpassword","/reset","/role/**","/dept/**","/images/**","/css/**").permitAll()
-		.anyRequest().authenticated()
-		.and().formLogin().loginPage("/signin").defaultSuccessUrl("/dashboard")
-		.and().csrf().disable();
-		*/	
-	
+ 
 		http.authorizeRequests()
  		.antMatchers("/signin","/images/**","/css/**","/resetpassword","/reset").permitAll()
 		.antMatchers("/register,do_register").hasRole("USER") //ok
@@ -68,9 +61,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         .anyRequest().authenticated()
 		.and().formLogin().loginPage("/signin").defaultSuccessUrl("/dashboard");
  
-		http.csrf().disable()
-		.cors().disable();
-		
+		http.csrf().disable().cors().disable();
 		http.headers().frameOptions().disable();
 
 	}

@@ -282,5 +282,44 @@ public class MyController {
 	    
 	    	return "resetpassword";
 	     }
+	    
+		@PostMapping("/punchin")
+		public String punchin(Model model,@RequestParam("punchIn") String punchIn)
+		{
+			System.out.println("punchIn " + punchIn);
+			Authentication authentication = isUserLogin	();
+	    	 if (authentication != null) {
+	    		 String username = authentication.getName();
+	    		 Employee employee = employeeRepo.findByemail(username);
+	    		 model.addAttribute("user", employee);
+	    		 return "home";
+	         }
+	    	 else
+	    	 {
+	    		 return "login";
+	    	 }
+ 		}
+		
+		@PostMapping("/punchout")
+		public String punchout(Model model,@RequestParam("punchOut") String punchout)
+		{
+			System.out.println("punchout" + punchout);
+			Authentication authentication = isUserLogin();
+	    	 if (authentication != null) {
+	    		 String username = authentication.getName();
+	    		 Employee employee = employeeRepo.findByemail(username);
+	    		 model.addAttribute("user", employee);
+	    		 return "home";
+	         }
+	    	 else
+	    	 {
+	    		 return "login";
+	    	 }
+ 		}
+
+		public Authentication isUserLogin()
+		{
+			return SecurityContextHolder.getContext().getAuthentication();
+		}
 	
 }
