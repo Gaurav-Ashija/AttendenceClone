@@ -6,29 +6,29 @@
 <link rel="stylesheet" th:href="@{/css/mystyle.css}" >
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  	
 </head>
 <body onload="startTime()">
    <header th:replace="header::myheader">
    </header>
 
  <div id="container">
- 
- 
-     <div class="content">
-	 <h3 id="txt"> </h3>
+
+     <div class="content page-content">
+	 <h3 id="txt"></h3>
 	  <h3>Duration : 0 hours</h3>
   </div>
   
-  <form  th:action="@{/punchin}" method="post">
-  	<input type="hidden" id="punchin" name="punchIn" th:value="${user.firstName}">
-     <button type="submit" > Punch In </button>
-  </form>	
- 
-     <form  th:action="@{/punchout}" method="post">
-  		<input type="hidden" id="punchout" name="punchOut" th:value="${user.firstName}">
-     <button type="submit"> Punch Out</button>
-   </form>  
+    <div id="form-div" style="display: flex;">
+	  <form th:action="@{/punchin}" method="post">
+	  	<input type="hidden" id="punchin" name="punchIn" th:value="${user.firstName}">
+	     <button class="custom-btn fifth" type="submit" > Punch In </button>
+	  </form>	
+	 
+	     <form th:action="@{/punchout}" method="post">
+	  		<input type="hidden" id="punchout" name="punchOut" th:value="${user.firstName}">
+	     <button class="custom-btn fifth" type="submit"> Punch Out</button>
+	   </form>  
+     </div>
 </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
    
