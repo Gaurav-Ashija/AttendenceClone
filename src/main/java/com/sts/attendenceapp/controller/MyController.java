@@ -1,7 +1,7 @@
 package com.sts.attendenceapp.controller;
 
 import java.io.IOException;
-
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +21,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import com.sts.attendenceapp.entities.Attendence;
 import com.sts.attendenceapp.entities.ConfirmationToken;
 import com.sts.attendenceapp.entities.Department;
 import com.sts.attendenceapp.entities.Employee;
@@ -34,6 +38,7 @@ import com.sts.attendenceapp.repositories.DepartmentRepository;
 import com.sts.attendenceapp.repositories.EmployeeRepository;
 import com.sts.attendenceapp.repositories.RoleRepository;
 import com.sts.attendenceapp.services.EmailService;
+import com.sts.attendenceapp.services.attendence.ImplAttendence;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.TemplateLoader;
@@ -61,6 +66,9 @@ public class MyController {
 	@Autowired
 	private EmailService emailService;
 	
+	@Autowired
+	private ImplAttendence implAttendence;
+
 	 @Autowired
 	private ConfirmationTokenRepository confirmationTokenRepository;
 	 	
@@ -75,20 +83,46 @@ public class MyController {
 	}
 
 	//Handler for Home page
-     @GetMapping("/")
+    @GetMapping("/")
 	 public String home(Model model)
 	 {
-    	 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    	 if (authentication != null) {
-    		 String username = authentication.getName();
-    		 Employee employee = employeeRepo.findByemail(username);
-    		 model.addAttribute("user", employee);
-    		 return "home";
-         }
-    	 else
-    	 {
-    		 return "login";
-    	 }
+   	 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+   	 if (authentication != null) {
+   		    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+    	        Date date = null;
+    			try {
+    		 	      String strDate = formatter.format(new Date());  
+    		 	      date = formatter.parse(strDate);
+				} catch (java.text.ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}  
+
+    				 String username = authentication.getName();
+		    		 Employee employee = employeeRepo.findByemail(username);
+		    		 List<Attendence> attendences=employee.getAttendence();
+	    			 System.out.println("attendences :" + attendences);
+
+		    		 Attendence currentPunchDate=null;
+		    		 for (Attendence attendence : attendences) {
+						Date punchDate= attendence.getPunchDate();
+		    			 System.out.println("attendences2 :" + attendence.getPunchDate());
+
+						if(date.equals(punchDate))
+						{
+							currentPunchDate=attendence;
+						}
+					}
+		    		 
+ 	 	     		 model.addAttribute("user", employee);
+		    		 model.addAttribute("attendence", currentPunchDate);
+   		 
+		    		 return "home";
+        }
+   	 else
+   	 {
+   		 		return "login";
+   	 }
 		 
 	 }
 	
@@ -309,43 +343,60 @@ public class MyController {
 	    	return "resetpassword";
 	     }
 	    
-		@PostMapping("/punchin")
-		public String punchin(Model model,@RequestParam("punchIn") String punchIn)
-		{
-			System.out.println("punchIn " + punchIn);
-			Authentication authentication = isUserLogin	();
-	    	 if (authentication != null) {
-	    		 String username = authentication.getName();
-	    		 Employee employee = employeeRepo.findByemail(username);
-	    		 model.addAttribute("user", employee);
-	    		 return "home";
-	         }
-	    	 else
-	    	 {
-	    		 return "login";
-	    	 }
- 		}
-		
-		@PostMapping("/punchout")
-		public String punchout(Model model,@RequestParam("punchOut") String punchout)
-		{
-			System.out.println("punchout" + punchout);
-			Authentication authentication = isUserLogin();
-	    	 if (authentication != null) {
-	    		 String username = authentication.getName();
-	    		 Employee employee = employeeRepo.findByemail(username);
-	    		 model.addAttribute("user", employee);
-	    		 return "home";
-	         }
-	    	 else
-	    	 {
-	    		 return "login";
-	    	 }
- 		}
+ 		@RequestMapping(value="/punchtime", method=RequestMethod.POST)
+  	    public @ResponseBody Attendence   punchtime(@RequestParam("punchTime") String punchTime,Model model) {
+    			 
+			String username = isUserLogin();
+		    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+ 	        Date date = null;
+ 	        Attendence a=null;
+ 	       try {
+  		 	      String strDate = formatter.format(new Date());  
+ 		 	      date = formatter.parse(strDate);
+			} catch (java.text.ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}  
+ 	       
 
-		public Authentication isUserLogin()
+	    	 if (username != null) {
+   	    		 Employee employee = employeeRepo.findByemail(username);
+	    		 List<Attendence> attendences=employee.getAttendence();
+    			 System.out.println("attendences :" + attendences);
+
+	    		 Attendence currentAttendencepunch=null;
+	    		 for (Attendence attendence : attendences) {
+						Date punchDate= attendence.getPunchDate();
+		    			 System.out.println("attendences2 :" + attendence.getPunchDate());
+
+					if(date.equals(punchDate))
+					{		    			 
+						System.out.println("current attendence :" + attendence.getPunchDate());
+
+						currentAttendencepunch=attendence;
+					}
+				}
+					System.out.println("currentAttendencepunch :" + currentAttendencepunch);
+
+ 	    		 model.addAttribute("user", employee);
+	    		 model.addAttribute("attendence", currentAttendencepunch);
+	    		 if(currentAttendencepunch!=null)
+	    		 {
+		    		  a= implAttendence.punchout(currentAttendencepunch,employee,punchTime);
+ 	    		 }
+	    		 else
+	    		 {
+ 		    		  a= implAttendence.punchin(employee,punchTime);
+	    		 }
+  	         }
+			return a;	
+   	    }
+		 
+
+		public String isUserLogin()
 		{
-			return SecurityContextHolder.getContext().getAuthentication();
+			return SecurityContextHolder.getContext().getAuthentication().getName();
 		}
 	
+  	
 }

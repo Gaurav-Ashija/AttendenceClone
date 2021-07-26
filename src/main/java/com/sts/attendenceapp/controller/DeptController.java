@@ -27,7 +27,7 @@ public class DeptController {
 	DepartmentRepository deptRepo;	
 	
  	@PostMapping("/addDept")
-	public ResponseEntity<Object> addDept(@RequestBody Department dept)
+	public ResponseEntity<Object> addDept(@RequestBody Department dept )
 	{
 		Department departments= deptRepo.findBydeptName(dept.getDeptName());
 		boolean isCreated=false;
@@ -44,7 +44,7 @@ public class DeptController {
 	    return new ResponseEntity<Object>("Role Already Created", HttpStatus.BAD_REQUEST);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+//	@PreAuthorize("hasRole('ROLE_USER')")
  	@GetMapping("/getDepts")
 	public ResponseEntity<Object> getDepts(Authentication authentication)
 	{

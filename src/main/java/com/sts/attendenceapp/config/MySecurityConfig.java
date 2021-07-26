@@ -58,7 +58,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
  		.antMatchers(HttpMethod.POST,"/role/addRole","/dept/addDept").hasRole("USER")
  		.antMatchers(HttpMethod.GET,"/role/getRoles","/dept/getDepts").hasRole("USER")
  		.antMatchers(HttpMethod.GET,"/employee/getemployees").hasRole("USER")
-        .anyRequest().authenticated()
+        .anyRequest().authenticated()	
 		.and().formLogin().loginPage("/signin").defaultSuccessUrl("/dashboard");
  
 		http.csrf().disable().cors().disable();

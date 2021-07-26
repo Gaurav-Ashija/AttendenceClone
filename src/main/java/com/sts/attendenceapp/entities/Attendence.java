@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "Emp_Attendence")
 public class Attendence {
@@ -22,9 +24,11 @@ public class Attendence {
 	    private String punchOut;
 	    private String workDuration;
 	    private Date punchDate;
+	    private int punchTimes;
 	    
 	    @ManyToOne(targetEntity = Employee.class, fetch = FetchType.EAGER)
 	    @JoinColumn(nullable = false, name = "emp_id")
+	    @JsonBackReference
 	    private Employee employee;
 	    
 		public Attendence() {
@@ -82,6 +86,16 @@ public class Attendence {
 		public void setEmployee(Employee employee) {
 			this.employee = employee;
 		}
+
+		public int getPunchTimes() {
+			return punchTimes;
+		}
+
+		public void setPunchTimes(int punchTimes) {
+			this.punchTimes = punchTimes;
+		}
 	    
+		
+		
 		
 }

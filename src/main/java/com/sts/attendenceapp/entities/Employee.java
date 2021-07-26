@@ -1,6 +1,8 @@
  package com.sts.attendenceapp.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -69,6 +72,10 @@ public class Employee {
 	@ManyToOne
 	@JsonManagedReference
     private Department department;
+	
+	@OneToMany
+	@JsonManagedReference
+	private List<Attendence> attendence=new ArrayList<Attendence>();
 	
 	@Column(name = "headId")
 	private long headId;
@@ -308,5 +315,16 @@ public class Employee {
 	public void setPasswordReset(boolean passwordReset) {
 		this.passwordReset = passwordReset;
 	}
+
+	public List<Attendence> getAttendence() {
+		return attendence;
+	}
+
+	public void setAttendence(List<Attendence> attendence) {
+		this.attendence = attendence;
+	}
+	
+	
+	
 		
 }
