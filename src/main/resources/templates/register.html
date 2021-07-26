@@ -8,6 +8,8 @@
 
 </head>
 <body>
+  <header th:replace="header::myheader">
+  </header> 
    
    <section>
      <div class="container page-content">
@@ -15,7 +17,14 @@
 	        <div class="col-md-6 offset-md-3">
 	           <div class="my-card">
 	              <h1 class="text-center">Register Here</h1>
-		              <form novalidate th:action="@{/do_register}" method="post" th:object="${employee}">
+	              
+	                 <div th:if="${registration_success}" class="alert alert-success" th:text="${registration_success}">
+	                 </div>
+	                 
+	                 <div th:if="${registration_failure}" class="alert alert-danger" th:text="${registration_failure}">
+	                 </div>
+	              
+		              <form th:action="@{/do_register}" method="post" th:object="${employee}">
 		                  <div class="mb-3">
 						    <label for="fname" class="form-label">First Name</label>
 						    <input type="text" class="form-control"

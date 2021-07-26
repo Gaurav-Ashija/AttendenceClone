@@ -1,6 +1,7 @@
  package com.sts.attendenceapp.entities;
 
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -73,8 +75,8 @@ public class Employee {
 	@JsonManagedReference
     private Department department;
 	
-	@OneToMany
-	@JsonManagedReference
+	@OneToMany(mappedBy = "employee")
+	@JsonBackReference
 	private List<Attendence> attendence=new ArrayList<Attendence>();
 	
 	@Column(name = "headId")

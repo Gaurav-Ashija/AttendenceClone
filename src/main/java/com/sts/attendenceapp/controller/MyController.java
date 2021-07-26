@@ -238,9 +238,15 @@ public class MyController {
 	
 		        emailService.sendEmail(mail,userName);
 		        System.out.println("Email Sended Successfully");
+		        
+		        model.addAttribute("employee", new Employee());
+		        model.addAttribute("registration_success", "Registration Completed Successfully");
 	 	  
 			} catch (Exception e) {
 				System.out.println("Exception : "+ e);
+				
+				model.addAttribute("employee", emp);
+				model.addAttribute("registration_failure", "Registration Failed");
 				
 			}
 		  
@@ -381,9 +387,9 @@ public class MyController {
  	    		 model.addAttribute("user", employee);
 	    		 model.addAttribute("attendence", currentAttendencepunch);
 	    		 if(currentAttendencepunch!=null)
-	    		 {
-		    		  a= implAttendence.punchout(currentAttendencepunch,employee,punchTime);
- 	    		 }
+	    		 { 
+		    		 a= implAttendence.punchout(currentAttendencepunch,employee,punchTime);
+  	    		 }
 	    		 else
 	    		 {
  		    		  a= implAttendence.punchin(employee,punchTime);

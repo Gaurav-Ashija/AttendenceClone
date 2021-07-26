@@ -13,4 +13,6 @@ public interface IAttendence {
 	
 	public Attendence punchout(Attendence attendence, Employee employee,String punchout);
 	
+	//public Attendence punchout(int aid, Employee employee,String punchout);
+	
 }

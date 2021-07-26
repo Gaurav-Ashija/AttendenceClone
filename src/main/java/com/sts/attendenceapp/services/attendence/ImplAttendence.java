@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -29,14 +30,12 @@ public class ImplAttendence implements IAttendence {
 
  	@Override
 	public Attendence findbypunchDate(Date today) {
-		// TODO Auto-generated method stub
 		return null;
 	} 
 
 	@Override
 	public Attendence punchin(Employee employee,String punchin) {
-		// TODO Auto-generated method stub
- 		
+		
 	    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
  	    String strDate = formatter.format(new Date());  
 
@@ -56,24 +55,52 @@ public class ImplAttendence implements IAttendence {
 		System.out.println("attendenceRepository" + attendenceRepository);
  		Attendence a= attendenceRepository.save(attendence);
  		
- 		List<Attendence> attendences=employee.getAttendence();
- 		attendences.add(a);
+ 		 List<Attendence> attendences=employee.getAttendence();
+ 		 attendences.add(a);
  		 employee.setAttendence(attendences);
  		 employeeRepo.save(employee);
  		
 		return a;
 	}
-
+	
 	@Override
 	public Attendence punchout(Attendence attendence, Employee employee,String punchout) {
-		// TODO Auto-generated method stub
+	
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+		
+		 // Parsing the Time Period
+       Date date1 = null,date2 = null;
+		try {
+			date1 = simpleDateFormat.parse(attendence.getPunchIn());
+	        date2 = simpleDateFormat.parse(punchout);
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+  
+		 // Calculating the difference in milliseconds
+       long differenceInMilliSeconds
+           = Math.abs(date2.getTime() - date1.getTime());
+ 
+       // Calculating the difference in Hours
+       long differenceInHours
+           = (differenceInMilliSeconds / (60 * 60 * 1000))
+             % 24;
+ 
+       // Calculating the difference in Minutes
+        long differenceInMinutes
+       = (differenceInMilliSeconds / (60 * 1000)) % 60;
+
+		
+       String duration=String.valueOf(differenceInHours)+ " Hours "+ String.valueOf(differenceInMinutes) + " Min ";
+        attendence.setWorkDuration(duration);
 		
   		attendence.setPunchOut(punchout);
 		attendence.setEmployee(employee);
 		attendence.setPunchTimes(2);
  		System.out.println("attendenceRepository" + attendenceRepository);
 		Attendence a= attendenceRepository.save(attendence);
-		
+
  		List<Attendence> attendences=employee.getAttendence();
  		attendences.add(a);
  		employee.setAttendence(attendences);
@@ -81,5 +108,43 @@ public class ImplAttendence implements IAttendence {
  		
 		return a;
 	}
+	
+	/*
+	@Override
+	public Attendence punchout(int aid, Employee employee, String punchout) {
+		
+		Optional<Attendence> optAttendence = attendenceRepository.findById(aid);
+		Attendence attendence = optAttendence.get();
+		
+		attendence.setPunchOut(punchout);
+		attendence.setEmployee(employee);
+		attendence.setPunchTimes(2);
+		Attendence a= attendenceRepository.save(attendence);
+		System.out.println("Attendence Updated Successfully");
+		
+		try
+		{
+		
+			List<Attendence> attendences=employee.getAttendence();
+			for(Attendence att : attendences)
+			{
+				if(att.getId() == aid)
+				{
+					attendences.remove(att);
+				}
+			}
+			attendences.add(a);
+	 		employee.setAttendence(attendences);
+	 		employeeRepo.save(employee);
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		
+		return a;
+	
+	}
 
+    */
 }

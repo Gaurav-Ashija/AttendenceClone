@@ -16,15 +16,14 @@
 
  <div id="container">
  
- 
-     <div class="content">
+  <div class="content">
 	 <h3 id="txt"> </h3>
-	  <h3>Duration : 0 hours</h3>
+ 	  
+	  <h3>Duration : <span th:text="${attendence} ? ${attendence.workDuration} : '0 Hours'"></span></h3>
   </div>
-  
-  
+ 
   <div th:if="${attendence!=null}">
-  
+     
   <div th:switch="${attendence.punchTimes}">
     <div th:case="'1'">
       <div onclick="punchTime()" class="button-2">

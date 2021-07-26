@@ -116,7 +116,9 @@ body
 	height: 80px;
 	color: #ffffff;
 	box-sizing: border-box;
+	/*
 	top:-100px;
+	*/
 
 	-webkit-transition:top 0.3s;
 	transition:top 0.3s;
@@ -473,7 +475,13 @@ right connector from last child*/
  */
 
  /* My Additional css */
+ 
+ .page-content
+ {
+   padding: 100px;
+ }
 
+/*
 .content
 {
 	position: absolute;
@@ -495,3 +503,4 @@ right connector from last child*/
     margin: -100px 0 0 -150px;
  }
  
+ */
