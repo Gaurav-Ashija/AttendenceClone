@@ -109,42 +109,4 @@ public class ImplAttendence implements IAttendence {
 		return a;
 	}
 	
-	/*
-	@Override
-	public Attendence punchout(int aid, Employee employee, String punchout) {
-		
-		Optional<Attendence> optAttendence = attendenceRepository.findById(aid);
-		Attendence attendence = optAttendence.get();
-		
-		attendence.setPunchOut(punchout);
-		attendence.setEmployee(employee);
-		attendence.setPunchTimes(2);
-		Attendence a= attendenceRepository.save(attendence);
-		System.out.println("Attendence Updated Successfully");
-		
-		try
-		{
-		
-			List<Attendence> attendences=employee.getAttendence();
-			for(Attendence att : attendences)
-			{
-				if(att.getId() == aid)
-				{
-					attendences.remove(att);
-				}
-			}
-			attendences.add(a);
-	 		employee.setAttendence(attendences);
-	 		employeeRepo.save(employee);
-		}
-		catch(Exception e)
-		{
-			System.out.println(e.getMessage());
-		}
-		
-		return a;
-	
-	}
-
-    */
 }

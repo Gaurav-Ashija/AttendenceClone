@@ -10,23 +10,88 @@
 <body>
    <header th:replace="header::myheader"></header> 
 
- <div class="tree page-content">
-	<ul>
-		<li>
-			<a href="#">Parent</a>
-			<ul>
-				<li>
-					<a href="#">Child</a>
-					<ul>
-						<li>
-							<a href="#">Grand Child</a>
-						</li>
-					</ul>
-				</li>
-				 
-			</ul>
-		</li>
-	</ul>
+ <div class="container page-content hierarchy text-center">
+  <h1 class="level-1 rectangle">CEO</h1>
+  <ol class="level-2-wrapper">
+    <li>
+      <h2 class="level-2 rectangle">Director A</h2>
+      <ol class="level-3-wrapper">
+        <li>
+          <h3 class="level-3 rectangle">Manager A</h3>
+          <ol class="level-4-wrapper">
+            <li>
+              <h4 class="level-4 rectangle">Person A</h4>
+            </li>
+            <li>
+              <h4 class="level-4 rectangle">Person B</h4>
+            </li>
+            <li>
+              <h4 class="level-4 rectangle">Person C</h4>
+            </li>
+            <li>
+              <h4 class="level-4 rectangle">Person D</h4>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <h3 class="level-3 rectangle">Manager B</h3>
+          <ol class="level-4-wrapper">
+            <li>
+              <h4 class="level-4 rectangle">Person A</h4>
+            </li>
+            <li>
+              <h4 class="level-4 rectangle">Person B</h4>
+            </li>
+            <li>
+              <h4 class="level-4 rectangle">Person C</h4>
+            </li>
+            <li>
+              <h4 class="level-4 rectangle">Person D</h4>
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li>
+      <h2 class="level-2 rectangle">Director B</h2>
+      <ol class="level-3-wrapper">
+        <li>
+          <h3 class="level-3 rectangle">Manager C</h3>
+          <ol class="level-4-wrapper">
+            <li>
+              <h4 class="level-4 rectangle">Person A</h4>
+            </li>
+            <li>
+              <h4 class="level-4 rectangle">Person B</h4>
+            </li>
+            <li>
+              <h4 class="level-4 rectangle">Person C</h4>
+            </li>
+            <li>
+              <h4 class="level-4 rectangle">Person D</h4>
+            </li>
+          </ol>
+        </li>
+        <li>
+          <h3 class="level-3 rectangle">Manager D</h3>
+          <ol class="level-4-wrapper">
+            <li>
+              <h4 class="level-4 rectangle">Person A</h4>
+            </li>
+            <li>
+              <h4 class="level-4 rectangle">Person B</h4>
+            </li>
+            <li>
+              <h4 class="level-4 rectangle">Person C</h4>
+            </li>
+            <li>
+              <h4 class="level-4 rectangle">Person D</h4>
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
 </div>
  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>   
