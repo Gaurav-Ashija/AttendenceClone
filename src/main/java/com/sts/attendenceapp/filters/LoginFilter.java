@@ -41,6 +41,8 @@ public class LoginFilter implements Filter  {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         		
+        System.out.println("Hello by Filter");
+        
         chain.doFilter(httpRequest,httpResponse);
        
 	}
