@@ -87,7 +87,7 @@ public class MyController {
 	 public String home(Model model)
 	 {
    	 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-   	 if (authentication != null) {
+    	 if (authentication != null) {
    		    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
     	        Date date = null;
     			try {
