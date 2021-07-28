@@ -96,9 +96,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 	        	            Authentication authentication) throws ServletException, IOException {
 	        	         
 	        	        // performs custom logics on successful login
-	     	        String email = request.getParameter("username");
-	     	        
-		                System.out.println("sign in : " +email );
+	        		 	String email = request.getParameter("username");
+ 		                System.out.println("sign in : " +email );
  	        	        super.onAuthenticationSuccess(request, response, authentication);
 	        	    }
 	        		});
