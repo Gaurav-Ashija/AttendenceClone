@@ -1,12 +1,10 @@
 package com.sts.attendenceapp.controller;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,19 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sts.attendenceapp.entities.Department;
-import com.sts.attendenceapp.entities.Role;
 import com.sts.attendenceapp.repositories.DepartmentRepository;
 
 @RestController
 @RequestMapping("/dept")
-
 public class DeptController {
 
 	@Autowired	
 	DepartmentRepository deptRepo;	
 	
  	@PostMapping("/addDept")
-	public ResponseEntity<Object> addDept(@RequestBody Department dept )
+	public ResponseEntity<Object> addDept(@RequestBody Department dept)
 	{
 		Department departments= deptRepo.findBydeptName(dept.getDeptName());
 		boolean isCreated=false;

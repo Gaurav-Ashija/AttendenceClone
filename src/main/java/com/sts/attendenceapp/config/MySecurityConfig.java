@@ -1,4 +1,10 @@
 package com.sts.attendenceapp.config;
+ 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
@@ -24,7 +30,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-
+ 
 @Configuration
 @EnableWebSecurity
 public class MySecurityConfig extends WebSecurityConfigurerAdapter {
@@ -71,7 +77,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
  		.antMatchers(HttpMethod.GET,"/role/getRoles","/dept/getDepts").hasRole("USER")
  		.antMatchers(HttpMethod.GET,"/employee/getemployees").hasRole("USER")
         .anyRequest().authenticated()	
- 		.and()
+  		.and()
         .addFilterBefore(getBeforeAuthenticationFilter(), CustomBeforeAuthenticationFilter.class)
   		.formLogin().loginPage("/signin")
   		.usernameParameter("username")
@@ -81,7 +87,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
          .logoutUrl("/logout")
   		.logoutSuccessHandler(logoutSuccessHandler())
         .permitAll();
-		http.csrf().disable().cors().disable();
+ 		http.csrf().disable().cors().disable();
 		http.headers().frameOptions().disable();
 
 	}
@@ -96,7 +102,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 	        	            Authentication authentication) throws ServletException, IOException {
 	        	         
 	        	        // performs custom logics on successful login
-	        		 	String email = request.getParameter("username");
+ 	        		 	String email = request.getParameter("username");
  		                System.out.println("sign in : " +email );
  	        	        super.onAuthenticationSuccess(request, response, authentication);
 	        	    }
@@ -120,4 +126,6 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 	 public LogoutSuccessHandler logoutSuccessHandler() {
 	     return new CustomLogoutSuccessHandler();
 	 }
-}
+	  	
+ 	
+ }
