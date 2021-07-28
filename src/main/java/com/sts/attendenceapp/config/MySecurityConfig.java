@@ -99,8 +99,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 	     	        String email = request.getParameter("username");
 	     	        
 		                System.out.println("sign in : " +email );
-
-	        	        super.onAuthenticationSuccess(request, response, authentication);
+ 	        	        super.onAuthenticationSuccess(request, response, authentication);
 	        	    }
 	        		});
 	        filter.setAuthenticationFailureHandler(new SimpleUrlAuthenticationFailureHandler() {

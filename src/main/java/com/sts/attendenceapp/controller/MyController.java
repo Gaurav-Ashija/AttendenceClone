@@ -98,7 +98,7 @@ public class MyController {
 					e.printStackTrace();
 				}  
 
-    				 String username = authentication.getName();
+     				 String username = authentication.getName();
 		    		 Employee employee = employeeRepo.findByemail(username);
 		    		 List<Attendence> attendences=employee.getAttendence();
 	    			 System.out.println("attendences :" + attendences);
