@@ -40,50 +40,7 @@ public class LoginFilter implements Filter  {
 		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        /*
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        
-        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
-        	Employee employee = employeeRepository.findByemail(authentication.getName());
-        	 	
-        	try
-        	{
-	         loginInfo = loginRepository.findByemployee(authentication.getName());
-	     
-        	}
-        	 catch(Exception e)
-        	{
-        		 if(loginInfo == null)
-             	{
-             		Login login = new Login();
-                 	login.setBrowser(httpRequest.getHeader("USER-AGENT"));
-                 	login.setLoginDate(new Date());
-                 	login.setLoginIp(httpRequest.getRemoteAddr());
-                 	login.setLastLoginDate(new Date());
-                 	login.setLastLoginIp(httpRequest.getRemoteAddr());
-                 	login.setEmployee(employee);
-                 	loginRepository.save(login);
-                 	System.out.println("LoginMaster Details Inserted Successfully");
-             	}
-             	else
-             	{
-             		loginInfo.setBrowser(httpRequest.getHeader("USER-AGENT"));
-             		loginInfo.setLoginDate(new Date());
-             		loginInfo.setLoginIp(httpRequest.getRemoteAddr());
-             		loginInfo.setLastLoginDate(new Date());
-             		loginInfo.setLastLoginIp(httpRequest.getRemoteAddr());
-             		loginInfo.setEmployee(employee);
-                 	loginRepository.save(loginInfo);
-                 	System.out.println("LoginMaster Details Updated Successfully");
-             	}
-        	}
-             
-      
-        	System.out.println(httpRequest.getHeader("USER-AGENT"));
-        }
-        */ 
-		
+        		
         chain.doFilter(httpRequest,httpResponse);
        
 	}
