@@ -1,5 +1,11 @@
 package com.sts.attendenceapp.config;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,9 +15,15 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -50,7 +62,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
  
 		http.authorizeRequests()
  		.antMatchers("/signin","/images/**","/css/**","/resetpassword","/reset").permitAll()
-		.antMatchers("/register","do_register").hasRole("HR") //ok
+		.antMatchers("/register","do_register").hasAnyRole("USER","HR") //ok
   		.antMatchers("/dashboard").hasAnyRole("USER","HR") //ok
   		.antMatchers("/hierarchy").hasAnyRole("USER","HR") //ok
    	
@@ -59,11 +71,55 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
  		.antMatchers(HttpMethod.GET,"/role/getRoles","/dept/getDepts").hasRole("USER")
  		.antMatchers(HttpMethod.GET,"/employee/getemployees").hasRole("USER")
         .anyRequest().authenticated()	
-		.and().formLogin().loginPage("/signin").defaultSuccessUrl("/dashboard");
- 
+ 		.and()
+        .addFilterBefore(getBeforeAuthenticationFilter(), CustomBeforeAuthenticationFilter.class)
+  		.formLogin().loginPage("/signin")
+  		.usernameParameter("username")
+    		.defaultSuccessUrl("/dashboard")
+    		.and()
+ 		 .logout()
+         .logoutUrl("/logout")
+  		.logoutSuccessHandler(logoutSuccessHandler())
+        .permitAll();
 		http.csrf().disable().cors().disable();
 		http.headers().frameOptions().disable();
 
 	}
 	
+	 public UsernamePasswordAuthenticationFilter getBeforeAuthenticationFilter() throws Exception {
+	        CustomBeforeAuthenticationFilter filter = new CustomBeforeAuthenticationFilter();
+	        filter.setAuthenticationManager(authenticationManager());
+	        filter.setAuthenticationSuccessHandler(new SavedRequestAwareAuthenticationSuccessHandler()
+	        		{
+	        	 @Override
+	        	    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+	        	            Authentication authentication) throws ServletException, IOException {
+	        	         
+	        	        // performs custom logics on successful login
+	     	        String email = request.getParameter("username");
+	     	        
+		                System.out.println("sign in : " +email );
+
+	        	        super.onAuthenticationSuccess(request, response, authentication);
+	        	    }
+	        		});
+	        filter.setAuthenticationFailureHandler(new SimpleUrlAuthenticationFailureHandler() {
+	 
+	            @Override
+	            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+	                    AuthenticationException exception) throws IOException, ServletException {
+	                System.out.println("Login error: " + exception.getMessage());
+	                super.setDefaultFailureUrl("/signin?error");
+	                super.onAuthenticationFailure(request, response, exception);
+	            }
+	             
+	        });
+	         
+	        return filter;
+	    }
+	
+	 @Bean
+	 public LogoutSuccessHandler logoutSuccessHandler() {
+	     return new CustomLogoutSuccessHandler();
+	 }
 }

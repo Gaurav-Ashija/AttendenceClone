@@ -2,14 +2,11 @@ document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
 
   var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridMonth',
-    initialDate: '2021-07-07',
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
-    },
-    events: [
+ 	   	      headerToolbar: {
+	   	       right: 'false',
+	   	       left: 'title',
+	    	     },
+  	    events: [
       {
         title: 'All Day Event',
         start: '2021-07-01'
@@ -55,7 +52,16 @@ document.addEventListener('DOMContentLoaded', function() {
         title: 'Click for Google',
         url: 'http://google.com/',
         start: '2021-07-28'
+      },
+      {
+      
+       daysOfWeek: [0,6], //Sundays and saturdays
+  	              textColor:"#FFFFFF" ,
+ 	             backgroundColor :"#000000",
+ 	            borderColor :"#000000",
+	              title:"Weekly Off"
       }
+      
     ]
   });
 
