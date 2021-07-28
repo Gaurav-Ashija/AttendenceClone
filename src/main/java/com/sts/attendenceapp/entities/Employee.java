@@ -326,7 +326,4 @@ public class Employee {
 		this.attendence = attendence;
 	}
 	
-	
-	
-		
 }
