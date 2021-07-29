@@ -1,6 +1,9 @@
 package com.sts.attendenceapp.config;
  
+import java.io.File;
+
 import java.io.IOException;
+import java.net.InetAddress;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -30,10 +34,29 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.util.ResourceUtils;
+
+import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.CityResponse;
+import com.sts.attendenceapp.entities.Employee;
+import com.sts.attendenceapp.entities.Login;
+import com.sts.attendenceapp.repositories.EmployeeRepository;
+import com.sts.attendenceapp.repositories.LoginRepository;
+import com.sts.attendenceapp.services.audit.ImplAudit;
  
 @Configuration
 @EnableWebSecurity
 public class MySecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	private ImplAudit audit;
+	
+	@Autowired
+	private EmployeeRepository employeeRepository;
+	
+	@Autowired
+	private LoginRepository loginRepository;
 
 	@Bean
 	public UserDetailsService userDetailsService()
@@ -103,7 +126,34 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 	        	         
 	        	        // performs custom logics on successful login
  	        		 	String email = request.getParameter("username");
- 		                System.out.println("sign in : " +email );
+ 	        		 	
+ 	        		 	Employee employee = employeeRepository.findByemail(email);
+ 	        		 	Login loginInfo = audit.login(employee,request,response);
+ 	        		 	
+ 	        		 	/*
+ 	        		 	File citytDatabase = ResourceUtils.getFile("classpath:GeoLite2-City.mmdb");
+ 	        		 	DatabaseReader citytDatabaseReader = new DatabaseReader.Builder(citytDatabase).build();
+ 	        		 	InetAddress ipAddress = InetAddress.getByName(request.getRemoteAddr());
+ 	        		 	CityResponse cityResponse=null;
+						try {
+							cityResponse = citytDatabaseReader.city(ipAddress);
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (GeoIp2Exception e) {
+							e.printStackTrace();
+						}
+ 	        		 	String countryName = cityResponse.getCountry().getName();
+ 	        		 	String cityName = cityResponse.getCity().getName();
+ 	        		 	String postal = cityResponse.getPostal().getCode();
+ 	        		 	String state = cityResponse.getLeastSpecificSubdivision().getName();
+ 	        		 	System.out.println("countryName : " +countryName);
+ 	        		 	System.out.println("cityName : " +cityName);
+ 	        		 	System.out.println("postal : " +postal);
+ 	        		 	System.out.println("state : " +state);
+ 	        		 	*/
+ 	        		 	
+ 		                //System.out.println("sign in : " +email );
+ 	        		 	
  	        	        super.onAuthenticationSuccess(request, response, authentication);
 	        	    }
 	        		});
@@ -127,5 +177,4 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 	     return new CustomLogoutSuccessHandler();
 	 }
 	  	
- 	
  }

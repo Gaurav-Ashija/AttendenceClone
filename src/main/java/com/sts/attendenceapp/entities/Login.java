@@ -25,6 +25,7 @@ public class Login {
 	    private Date lastLoginDate;
 	    private String lastLoginIp;
 	    private String browser;
+	    private boolean loginActive;
 	    
 	    @ManyToOne(targetEntity = Employee.class, fetch = FetchType.EAGER)
 	    @JoinColumn(nullable = false, name = "emp_id")
@@ -84,6 +85,14 @@ public class Login {
 
 		public void setEmployee(Employee employee) {
 			this.employee = employee;
+		}
+
+		public boolean isLoginActive() {
+			return loginActive;
+		}
+
+		public void setLoginActive(boolean loginActive) {
+			this.loginActive = loginActive;
 		}
 			         
 }

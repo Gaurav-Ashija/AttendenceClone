@@ -19,7 +19,6 @@ import com.sts.attendenceapp.repositories.RoleRepository;
 
 @Service
 @Transactional
-
 public class ImplAttendence implements IAttendence {
 
 	@Autowired
