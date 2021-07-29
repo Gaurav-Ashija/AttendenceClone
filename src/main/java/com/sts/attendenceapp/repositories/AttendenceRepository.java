@@ -14,6 +14,9 @@ public interface AttendenceRepository extends JpaRepository<Attendence, Integer>
 
 	  public Attendence findBypunchDate(Date today);
 	  
-	  public Attendence findByemployee(String  username);
+	  public Attendence findByemployee(String username);
 
+//	  public List<Attendence> findByemployeeAndpunchDate(String username,Date today);
+
+ 
 }
