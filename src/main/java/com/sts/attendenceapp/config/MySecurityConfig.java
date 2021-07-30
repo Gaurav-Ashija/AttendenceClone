@@ -2,6 +2,7 @@ package com.sts.attendenceapp.config;
  
 import java.io.File;
 
+
 import java.io.IOException;
 import java.net.InetAddress;
 
@@ -34,11 +35,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.util.ResourceUtils;
 
-import com.maxmind.geoip2.DatabaseReader;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.CityResponse;
 import com.sts.attendenceapp.entities.Employee;
 import com.sts.attendenceapp.entities.Login;
 import com.sts.attendenceapp.repositories.EmployeeRepository;
@@ -129,28 +126,6 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
  	        		 	
  	        		 	Employee employee = employeeRepository.findByemail(email);
  	        		 	Login loginInfo = audit.login(employee,request,response);
- 	        		 	
- 	        		 	/*
- 	        		 	File citytDatabase = ResourceUtils.getFile("classpath:GeoLite2-City.mmdb");
- 	        		 	DatabaseReader citytDatabaseReader = new DatabaseReader.Builder(citytDatabase).build();
- 	        		 	InetAddress ipAddress = InetAddress.getByName(request.getRemoteAddr());
- 	        		 	CityResponse cityResponse=null;
-						try {
-							cityResponse = citytDatabaseReader.city(ipAddress);
-						} catch (IOException e) {
-							e.printStackTrace();
-						} catch (GeoIp2Exception e) {
-							e.printStackTrace();
-						}
- 	        		 	String countryName = cityResponse.getCountry().getName();
- 	        		 	String cityName = cityResponse.getCity().getName();
- 	        		 	String postal = cityResponse.getPostal().getCode();
- 	        		 	String state = cityResponse.getLeastSpecificSubdivision().getName();
- 	        		 	System.out.println("countryName : " +countryName);
- 	        		 	System.out.println("cityName : " +cityName);
- 	        		 	System.out.println("postal : " +postal);
- 	        		 	System.out.println("state : " +state);
- 	        		 	*/
  	        		 	
  		                //System.out.println("sign in : " +email );
  	        		 	

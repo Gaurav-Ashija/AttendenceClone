@@ -25,6 +25,8 @@ public class Attendence {
 	    private String workDuration;
 	    private Date punchDate;
 	    private int punchTimes;
+	    private String punchInLocation;
+	    private String punchOutLocation;
 	    
 	    @ManyToOne(targetEntity = Employee.class, fetch = FetchType.EAGER)
 	    @JoinColumn(nullable = false, name = "emp_id")
@@ -94,8 +96,21 @@ public class Attendence {
 		public void setPunchTimes(int punchTimes) {
 			this.punchTimes = punchTimes;
 		}
-	    
-		
-		
-		
+
+		public String getPunchInLocation() {
+			return punchInLocation;
+		}
+
+		public void setPunchInLocation(String punchInLocation) {
+			this.punchInLocation = punchInLocation;
+		}
+
+		public String getPunchOutLocation() {
+			return punchOutLocation;
+		}
+
+		public void setPunchOutLocation(String punchOutLocation) {
+			this.punchOutLocation = punchOutLocation;
+		}
+	    		
 }
