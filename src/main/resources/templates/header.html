@@ -22,7 +22,7 @@
 					<a th:href="@{/}" style="font-weight: bold;">Home</a>
 		 			<a th:href="@{/dashboard}" style="font-weight: bold;">Dashboard</a>
 					<a th:if="${user.role.roleName == 'ROLE_HR'}" th:href="@{/register}" style="font-weight: bold;">Register</a>
-					<a th:href="@{/hierarchy}" style="font-weight: bold;">Hierarchy</a>
+					<a th:href="@{/hierarchy}" style="font-weight: bold;">Org Chart</a>
 			
 			<a th:if="${user.firstName}">Welcome <span style="font-weight: bold;" th:text="${user.firstName}"></span></a>
 		 	<a th:href="@{/logout}" >Logout</a>

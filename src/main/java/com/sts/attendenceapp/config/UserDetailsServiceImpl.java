@@ -8,33 +8,38 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.sts.attendenceapp.entities.Employee;
 import com.sts.attendenceapp.repositories.EmployeeRepository;
+import com.sts.attendenceapp.services.admin.ImplAdmin;
 
 public class UserDetailsServiceImpl implements UserDetailsService{
 	
 	@Autowired
 	private EmployeeRepository employeeRepo;
 
+	@SuppressWarnings("null")
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) {
 		
-		Employee employee = employeeRepo.getUserByUserName(username);
-		
-		if(employee == null)
+		CustomUserDetails customUserDetails = null;
+ 			customUserDetails= IsUserExits(username);
+ 			return customUserDetails;
+ 	}
+	
+	public CustomUserDetails IsUserExits(String username) throws UsernameNotFoundException ,BadCredentialsException
+	{
+ 		Employee employee = employeeRepo.getUserByUserName(username);
+ 		if(employee == null)
 		{
-			throw new UsernameNotFoundException("User Not Found");
+ 			throw new UsernameNotFoundException("User Not Found");
 		}
 		else
 		{
-			  if(!employee.isPasswordReset())
+ 			  if(!employee.isPasswordReset())
   		       {
 				  throw new BadCredentialsException("Please Check Username and Password");
     		   }
 		}
-		
-		
-		CustomUserDetails customUserDetails = new CustomUserDetails(employee);
-		
-		return customUserDetails;
-	}
+ 			CustomUserDetails customUserDetails = new CustomUserDetails(employee);
+  			return customUserDetails;
 
+	}
 }

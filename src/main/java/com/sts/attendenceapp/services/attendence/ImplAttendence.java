@@ -91,7 +91,7 @@ public class ImplAttendence implements IAttendence {
        = (differenceInMilliSeconds / (60 * 1000)) % 60;
 
 		
-       String duration=String.valueOf(differenceInHours)+ " Hours "+ String.valueOf(differenceInMinutes) + " Min ";
+        String duration=String.valueOf(differenceInHours)+ " Hours "+ String.valueOf(differenceInMinutes) + " Min ";
         attendence.setWorkDuration(duration);
 		
   		attendence.setPunchOut(punchout);
