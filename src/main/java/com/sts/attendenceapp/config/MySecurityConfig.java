@@ -137,10 +137,15 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 	            @Override
 	            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 	                    AuthenticationException exception) throws IOException, ServletException {
+	            	
+	            	String email = request.getParameter("username");
+	    	       
 	                System.out.println("Login error: " + exception.getMessage());
 	                super.setDefaultFailureUrl("/signin?error");
 	                super.onAuthenticationFailure(request, response, exception);
 	            }
+	            
+	            
 	             
 	        });
 	         

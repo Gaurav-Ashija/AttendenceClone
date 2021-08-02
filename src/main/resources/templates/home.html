@@ -72,22 +72,22 @@
 		   }
 
 		   function showPosition(position) {
+			 var APIKey = "0df26150642240f1aafea4238d8e4631";  
 		     var latitude = position.coords.latitude;
 		     var longitude = position.coords.longitude; 
 		     var location;
 		     
 		     var request = new XMLHttpRequest();
-
-			     //https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=37.42159&longitude=-122.083
-			     request.open('GET','https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + latitude + '&longitude=' + longitude + '', true);
+			     //request.open('GET','https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + latitude + '&longitude=' + longitude + '', true);
+			     request.open('GET','https://api.opencagedata.com/geocode/v1/json?q=' + latitude + ',' + longitude + '&key=' + APIKey + '', true);
 			     request.onload = function () {
 			       // Begin accessing JSON data here
 			       var data = JSON.parse(this.response);
-			       console.log(this.response);
-			      
+			  
 				      if (request.status == 200) {
-				    	  location = data.locality + "," + data.city + "," + data.postcode;
-				    	  //console.log(location);
+				    	 //location = data.locality + "," + data.city + "," + data.postcode;
+				    	 
+				    	  location = data.results[0].formatted;
 				    	  
 					  } else {
 					    console.log('error');

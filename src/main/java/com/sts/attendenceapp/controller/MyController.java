@@ -277,6 +277,7 @@ public class MyController {
 	public String customLogin()
 	{    	 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
 		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             return "login";
         }
