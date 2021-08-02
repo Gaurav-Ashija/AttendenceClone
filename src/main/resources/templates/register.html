@@ -1,218 +1,134 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="ISO-8859-1">
-<title>Registration</title>
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/stepform.css}" >
 <link rel="stylesheet" th:href="@{/css/mystyle.css}" >
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script th:src="@{/js/custom.js}"></script>
+<!------ Include the above in your HEAD tag ---------->
 
-</head>
-<body>
-  <header th:replace="header::myheader">
-  </header> 
-   
-   <section>
-     <div class="container page-content">
+ <header th:replace="header::myheader"> 
+ </header>
+
+ <div style="height:70px;"></div>
+    <div class="assessment-container container">
         <div class="row">
-	        <div class="col-md-6 offset-md-3">
-	           <div class="my-card">
-	              <h1 class="text-center">Register Here</h1>
-	              
-	                 <div th:if="${registration_success}" class="alert alert-success" th:text="${registration_success}">
-	                 </div>
+            <div class="col-md-6 col-md-offset-3 form-box">
+                <form role="form" class="registration-form" action="javascript:void(0);" th:action="@{/do_register}" method="post" th:object="${employee}">
+                    <fieldset>
+                        <div class="form-top">
+                            <div class="form-top-left">
+                                <h3><span><i class="fa fa-calendar-check-o" aria-hidden="true"></i></span>Register Form</h3>
+                                
+                            </div>
+                        </div>
+                        <div class="form-bottom">
+                            <div th:if="${registration_success}" class="alert alert-success" th:text="${registration_success}">
+	                        </div>
 	                 
-	                 <div th:if="${registration_failure}" class="alert alert-danger" th:text="${registration_failure}">
-	                 </div>
-	              
-		              <form th:action="@{/do_register}" method="post" th:object="${employee}">
-		                  <div class="mb-3">
-						    <label for="fname" class="form-label">First Name</label>
-						    <input type="text" class="form-control"
-						    th:classappend="${#fields.hasErrors('firstName') ? 'is-invalid' : ''}"
-						    id="fname" name="firstName"
-						    placeholder="Enter Your First Name"
-						    th:value="${employee.firstName}"
-						    required
-						   
-						    >
-						    
-						    <div class="invalid-feedback" th:each="e : ${#fields.errors('firstName')}"
-						    th:text="${e}"
-						    >
-						    </div>
-						    
-						  </div>
-		                  <div class="mb-3">
-						    <label for="lname" class="form-label">Last Name</label>
-						    <input type="text" class="form-control"
-						    th:classappend="${#fields.hasErrors('lastName') ? 'is-invalid' : ''}"
-						    id="lname" name="lastName"
-						    placeholder="Enter Your Last Name"
-						    required
-						    >
-						    
-						    <div class="invalid-feedback" th:each="e : ${#fields.errors('lastName')}"
-						    th:text="${e}"
-						    >
-						    </div>
-						    
-						  </div>
-						  
-						  <div class="mb-3">
-						    <label for="email" class="form-label">Email Address</label>
-						    <input type="email" class="form-control"
-						    th:classappend="${#fields.hasErrors('email') ? 'is-invalid' : ''}"
-						    id="email" name="email"
-						    placeholder="Enter Your Email Address"
-						    required
-						    >
-						    
-						    <div class="invalid-feedback" th:each="e : ${#fields.errors('email')}"
-						    th:text="${e}"
-						    >
-						    </div>
-						    
-						  </div>
-						  
-						  <!-- 
-						  <div class="mb-3">
-						    <label for="password" class="form-label">Password</label>
-						    <input type="password" class="form-control"
-						    th:classappend="${#fields.hasErrors('password') ? 'is-invalid' : ''}"
-						    id="password" name="password"
-						    placeholder="Enter Your Password"
-						    required
-						    >
-						    
-						    <div class="invalid-feedback" th:each="e : ${#fields.errors('password')}"
-						    th:text="${e}"
-						    >
-						    </div>
-						    
-						  </div>
-						  -->
-						  
-						  <div class="mb-3">
-						    <label for="desgn" class="form-label">Designation</label>
-						    <input type="text" class="form-control"
-						    th:classappend="${#fields.hasErrors('designation') ? 'is-invalid' : ''}"
-						    id="desgn" name="designation"
-						    placeholder="Enter Your Designation"
-						    required
-						    >
-						    
-						    <div class="invalid-feedback" th:each="e : ${#fields.errors('designation')}"
-						    th:text="${e}"
-						    >
-						    </div>
-						    
-						  </div>
-						  
-						  <div class="mb-3">
-						    <label for="branch" class="form-label">Branch</label>
-						    <input type="text" class="form-control"
-						    th:classappend="${#fields.hasErrors('branch') ? 'is-invalid' : ''}"
-						    id="branch" name="branch"
-						    placeholder="Enter Your Branch"
-						    required
-						    >
-						    
-						    <div class="invalid-feedback" th:each="e : ${#fields.errors('branch')}"
-						    th:text="${e}"
-						    >
-						    </div>
-						    
-						  </div>
-						  
-						  <div class="mb-3">
-						    <label for="mobile" class="form-label">Mobile No.</label>
-						    <input type="text" class="form-control" 
-						    th:classappend="${#fields.hasErrors('mobileNo') ? 'is-invalid' : ''}"
-						    id="mobile" name="mobileNo"
-						    placeholder="Enter Your Mobile No."
-						    required
-						    >
-						    
-						    <div class="invalid-feedback" th:each="e : ${#fields.errors('mobileNo')}"
-						    th:text="${e}"
-						    >
-						    </div>
-						    
-						  </div>
-						  
-						  <div class="mb-3">
-						    <label for="qual" class="form-label">Qualification</label>
-						    <input type="text" class="form-control"
-						    th:classappend="${#fields.hasErrors('qualification') ? 'is-invalid' : ''}"
-						    id="qual" name="qualification"
-						    placeholder="Enter Your Qualification"
-						    required
-						    >
-						    
-						    <div class="invalid-feedback" th:each="e : ${#fields.errors('qualification')}"
-						    th:text="${e}"
-						    >
-						    </div>
-						    
-						  </div>
-						  
-						 <div class="mb-3"> 
-						 <label class="form-label">Gender</label>
-						  <div class="form-check">
-							  <input class="form-check-input" type="radio" name="gender" id="gender" value="Male" required>
-							  <label class="form-check-label" for="gender">
-							    Male
-							  </label>
-							  
-						  </div>
-						  
-						  <div class="form-check">
-							  <input class="form-check-input" type="radio" name="gender" id="gender" value="Female" required>
-							  <label class="form-check-label" for="gender">
-							    Female
-							  </label>
-							  
-						  </div>
-						 </div>
-						 
-						<div class="mb-3">
-						   <label class="form-label">Role Name</label>  
-							 <select class="form-select" 
-							  name="roleId" required>
-							  <option value="">Select Role Name</option>
-							  <option th:each="role : ${empRole}"
-						     th:text="${role.roleName}" th:value="${role.roleId}"></option>
-							</select>
-							
-						</div>
-						
-						<div class="mb-3">
-						   <label class="form-label">Department Name</label>  
-							 <select class="form-select" name="departmentId" required>
-							  <option value="">Select Department Name</option>
-							  <option th:each="dept : ${empDepartment}"
-						     th:text="${dept.deptName}" th:value="${dept.deptId}"></option>
-							  
-							</select>
-						</div>
-						 
-						  <div class="container text-center">
-						     
-						     <button type="submit" class="btn btn-primary">
-						      Register
-						     </button>
-						     <button type="reset" class="btn btn-warning">
-						      Reset
-						     </button>
-						     
-						  </div>
-		              </form>
-	           </div>
-	        </div>
+			                 <div th:if="${registration_failure}" class="alert alert-danger" th:text="${registration_failure}">
+			                 </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 col-sm-6">
+                                    <input type="text" class="form-control" placeholder="First Name" id="fname" name="firstName">
+                                </div>
+                                <div class="form-group col-md-6 col-sm-6">
+                                    <input type="text" class="form-control" placeholder="Last Name" id="lname" name="lastName">
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom:3px;">
+                                <div class="row">
+                                    
+                                    <div class="form-group col-md-12 col-sm-12">
+                                        <input type="text" class="form-control" placeholder="Mobile Number" id="mobile_number" name="mobileNo">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" placeholder="Enter Email" class="form-email form-control" id="email" required>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" name="designation" placeholder="Enter Designation" class="form-control" id="designation" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <input type="text" name="branch" placeholder="Enter Branch" class="form-control" id="branch" required>
+                            </div>
+                            
+                             <div class="form-group">
+                                <input type="text" name="qualification" placeholder="Enter Qualification" class="form-control" id="qualification" required>
+                            </div>
+                           
+                            <div class="form-group">
+                                <select class="form-control" name="gender">
+                                    <option>Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                            
+                            <button type="button" class="btn btn-next">Next</button>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-top">
+                            <div class="form-top-left">
+                                <h3><span><i class="fa fa-calendar-check-o" aria-hidden="true"></i></span>Register Form</h3>
+                              
+                            </div>
+                        </div>
+                        <div class="form-bottom">
+                            <div class="form-group">
+                                <select class="form-control" name="roleId" required>
+                                    <option value="">Select Role Name</option>
+							        <option th:each="role : ${empRole}"
+						            th:text="${role.roleName}" th:value="${role.roleId}"></option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <select class="form-control" name="departmentId" required>
+                                    <option value="">Select Department Name</option>
+							        <option th:each="dept : ${empDepartment}"
+						            th:text="${dept.deptName}" th:value="${dept.deptId}"></option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-previous">Previous</button>
+                            <button type="button" class="btn btn-next">Next</button>
+                        </div>
+                    </fieldset>
+                    
+                    <fieldset>
+                        <div class="form-top">
+                            <div class="form-top-left">
+                                <h3><span><i class="fa fa-calendar-check-o" aria-hidden="true"></i></span>Register Form</h3>
+                              
+                            </div>
+                        </div>
+                        <div class="form-bottom">
+                            <div class="form-group">
+                                <select class="form-control" name="headName" required>
+                                    <option value="">Select Head Name</option>
+                                    <option value="Nikki Ahalawat">Nikki Ahalawat</option>
+							        
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <select class="form-control" name="headEmail" required>
+                                    <option value="">Select Head Email Address</option>
+							        <option value="nikki.ahalawat@teamcomputers.com">nikki.ahalawat@teamcomputers.com</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-previous">Previous</button>
+                            <button type="submit" class="btn">Register</button>
+                        </div>
+                    </fieldset>
+                    
+                </form>
+            </div>
         </div>
-     </div>
-    
-  </section>  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    </div>
+   </html> 
