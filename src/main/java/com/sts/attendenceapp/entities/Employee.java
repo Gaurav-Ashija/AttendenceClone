@@ -1,4 +1,4 @@
- package com.sts.attendenceapp.entities;
+package com.sts.attendenceapp.entities;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,6 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 
 @Entity
 @Table(name = "Employees")

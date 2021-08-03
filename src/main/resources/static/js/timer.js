@@ -31,17 +31,29 @@ function punchTime()
   let punchTime=h + ":" + m ;
      
   let email = $('#employee-email').val();
-    
-  $.ajax({
+  let location = $('#userLocation').text(); 
+  
+  if(location === "")
+  {
+      $('#location-error').show();
+      $('#location-error').text("Please Select Your Location"); 
+  }
+  else
+  {
+       $.ajax({
         type:"post",
-        data: {"punchTime":punchTime},
+        data: {"punchTime":punchTime,
+               "location":location
+              },
         url:"/punchtime",
         async: false,
         dataType: "json",
         success: function(){
  			location.reload();
           }
-    });
+     });
+  }
+   
 }
 
 

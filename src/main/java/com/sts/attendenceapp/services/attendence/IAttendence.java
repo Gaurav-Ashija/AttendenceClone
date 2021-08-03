@@ -9,8 +9,8 @@ public interface IAttendence {
 
 	public Attendence findbypunchDate(Date today);
 	
-	public Attendence punchin(Employee employee,String punchin);
+	public Attendence punchin(Employee employee,String punchin,String punchInLocation);
 	
-	public Attendence punchout(Attendence attendence, Employee employee,String punchout);
+	public Attendence punchout(Attendence attendence, Employee employee,String punchout,String punchOutLocation);
 	
 }

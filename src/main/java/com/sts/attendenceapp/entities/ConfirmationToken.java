@@ -1,6 +1,8 @@
 package com.sts.attendenceapp.entities;
 
 import java.util.Date;
+
+
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -13,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 
 @Entity
 public class ConfirmationToken {

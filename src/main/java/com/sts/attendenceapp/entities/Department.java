@@ -24,7 +24,7 @@ public class Department {
 	private String deptDescription;
 	
 	@OneToMany(mappedBy = "department")
-	@JsonBackReference
+    @JsonBackReference
 	private List<Employee> employee;
 	
 	public int getDeptId() {

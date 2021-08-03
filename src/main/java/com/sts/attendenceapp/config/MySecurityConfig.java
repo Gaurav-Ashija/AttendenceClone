@@ -87,7 +87,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
  
 		http.authorizeRequests()
- 		.antMatchers("/signin","/images/**","/css/**","/resetpassword","/reset").permitAll()
+ 		.antMatchers("/signin","/images/**","/css/**","/resetpassword","/reset","/admin/addAdmin").permitAll()
 		.antMatchers("/register","/do_register").hasAnyRole("USER","HR") //ok
   		.antMatchers("/dashboard").hasAnyRole("USER","HR") //ok
   		.antMatchers("/hierarchy").hasAnyRole("USER","HR") //ok

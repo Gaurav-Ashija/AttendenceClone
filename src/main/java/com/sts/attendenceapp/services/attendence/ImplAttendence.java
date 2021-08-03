@@ -33,7 +33,7 @@ public class ImplAttendence implements IAttendence {
 	} 
 
 	@Override
-	public Attendence punchin(Employee employee,String punchin) {
+	public Attendence punchin(Employee employee,String punchin,String punchInLocation) {
 		
 	    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
  	    String strDate = formatter.format(new Date());  
@@ -51,6 +51,7 @@ public class ImplAttendence implements IAttendence {
 		attendence.setPunchIn(punchin);
 		attendence.setEmployee(employee);
 		attendence.setPunchTimes(1);
+		attendence.setPunchInLocation(punchInLocation);
 		System.out.println("attendenceRepository" + attendenceRepository);
  		Attendence a= attendenceRepository.save(attendence);
  		
@@ -63,7 +64,7 @@ public class ImplAttendence implements IAttendence {
 	}
 	
 	@Override
-	public Attendence punchout(Attendence attendence, Employee employee,String punchout) {
+	public Attendence punchout(Attendence attendence, Employee employee,String punchout,String punchOutLocation) {
 	
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
 		
@@ -97,6 +98,7 @@ public class ImplAttendence implements IAttendence {
   		attendence.setPunchOut(punchout);
 		attendence.setEmployee(employee);
 		attendence.setPunchTimes(2);
+		attendence.setPunchOutLocation(punchOutLocation);
  		System.out.println("attendenceRepository" + attendenceRepository);
 		Attendence a= attendenceRepository.save(attendence);
 

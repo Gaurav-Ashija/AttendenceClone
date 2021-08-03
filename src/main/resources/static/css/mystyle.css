@@ -744,3 +744,21 @@ tbody a
 
 /* Step form css Start */
 
+#location-icon
+{
+	font-size: 30px;
+	color:red;
+	cursor: pointer;
+}
+
+#userLocation
+{
+	font-size: 18px;
+	font-weight: bold;
+	color:black;
+}
+
+#location-error
+{
+	color:red;
+}

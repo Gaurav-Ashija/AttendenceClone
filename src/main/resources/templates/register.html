@@ -2,9 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" th:href="@{/css/stepform.css}" >
 <link rel="stylesheet" th:href="@{/css/mystyle.css}" >
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script th:src="@{/js/custom.js}"></script>
 <!------ Include the above in your HEAD tag ---------->
 
@@ -108,18 +108,28 @@
                             </div>
                         </div>
                         <div class="form-bottom">
-                            <div class="form-group">
-                                <select class="form-control" name="headName" required>
-                                    <option value="">Select Head Name</option>
-                                    <option value="Nikki Ahalawat">Nikki Ahalawat</option>
+                           <div class="form-group">
+                                <select class="form-control" id="headDesignation" required>
+                                    <option value="">Select Head Designation</option>
+                                    <option th:each="employee : ${employees}"
+						            th:if="${employee}" th:value="${employee.designation}" th:text="${employee.designation}"></option>
+                                    
+                                    <option th:unless="${employee}" value="CEO">CEO</option>
 							        
                                 </select>
                             </div>
-                            
+                         
                             <div class="form-group">
-                                <select class="form-control" name="headEmail" required>
+                                <select class="form-control" name="headEmail" id="headEmail" required>
                                     <option value="">Select Head Email Address</option>
-							        <option value="nikki.ahalawat@teamcomputers.com">nikki.ahalawat@teamcomputers.com</option>
+                                    <option th:each="employee : ${employees}"
+						            th:if="${employee}" th:value="${employee.email}">
+						               <span th:text="${employee.firstName}"></span>
+						               <span th:text="${employee.lastName}"></span>
+						               - <span th:text="${employee.email}"></span>
+						            </option>
+                                    
+							        <option th:unless="${employee}" value="ranjan.chopra@teamcomputers.com">Ranjan Chopra - ranjan.chopra@teamcomputers.com</option>
                                 </select>
                             </div>
                             <button type="button" class="btn btn-previous">Previous</button>
@@ -131,4 +141,58 @@
             </div>
         </div>
     </div>
+    
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   
+   <script>
+    $(document).ready(function() {
+             
+    	$('#headDesignation').on('change', function() {
+    		  var headDesignation = this.value;
+    		      if(headDesignation !== "")
+    			  {
+    		    	  $.ajax({
+    		    	        type:"post",
+    		    	        data: {"headDesignation":headDesignation},
+    		    	        url:"/headInfo",
+    		    	        async: false,
+    		    	        success: function(response){
+    		    	        	//console.log(response);
+	                    		var emailBox = document.getElementById("headEmail");
+	                    		$('#headEmail').find('option').remove();
+	                    		var emails = response.replace('[', "").replace(']',"");
+	                    		if(emails === "")
+	                            {
+	                    			var defaultEmail = document.createElement("option");
+	                    			defaultEmail.text = "Ranjan Chopra - ranjan.chopra@teamcomputers.com";
+	                    			defaultEmail.value = "ranjan.chopra@teamcomputers.com";
+	                    			emailBox.add(defaultEmail);
+	                    	    }
+	                    		else
+	                    	    {
+	                    			var defaultEmail = document.createElement("option");
+	                    			defaultEmail.text = "Select Head Email Address";
+	                    			defaultEmail.value = "";
+	                    			emailBox.add(defaultEmail);	
+	                    			
+	                    			 var email = emails.split(",");
+	                    		     for(i=0; i < email.length; i++)
+	                    		    	{
+	                    		    	   var option = document.createElement("option");
+	                    		    	   option.text = option.value = email[i];
+	                    		    	   emailBox.add(option);
+	                    		    	}
+	                    		}
+	                    	
+    		    	          },
+    		    	          error : function() {
+    		    	        	  console.log('Failed');
+    		    	          }
+    		    	     });
+    			  }
+         });
+    	
+	   });
+    </script>
+    
    </html> 

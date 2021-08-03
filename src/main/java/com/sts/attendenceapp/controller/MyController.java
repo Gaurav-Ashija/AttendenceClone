@@ -1,12 +1,16 @@
 package com.sts.attendenceapp.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.TreeSet;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,8 +138,10 @@ public class MyController {
 		
 		List<Role> roles = roleRepo.findAll();
 		List<Department> depts = deptRepo.findAll();
+		List<Employee> employees = employeeRepo.findAll();
 		model.addAttribute("empRole", roles);
 		model.addAttribute("empDepartment", depts);
+		model.addAttribute("employees", employees);
 		
 		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		   	 if (authentication != null) {
@@ -351,9 +357,9 @@ public class MyController {
 	     }
 	    
  		@RequestMapping(value="/punchtime", method=RequestMethod.POST)
-  	    public @ResponseBody Attendence   punchtime(@RequestParam("punchTime") String punchTime,Model model) {
-    			 
-			String username = isUserLogin();
+  	    public @ResponseBody Attendence punchtime(@RequestParam("punchTime") String punchTime,@RequestParam("location") String location,Model model) {
+    	
+ 			String username = isUserLogin();
 		    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
  	        Date date = null;
  	        Attendence a=null;
@@ -389,17 +395,40 @@ public class MyController {
 	    		 model.addAttribute("attendence", currentAttendencepunch);
 	    		 if(currentAttendencepunch!=null)
 	    		 { 
-		    		 a= implAttendence.punchout(currentAttendencepunch,employee,punchTime);
+		    		 a= implAttendence.punchout(currentAttendencepunch,employee,punchTime,location);
   	    		 }
 	    		 else
 	    		 {
- 		    		  a= implAttendence.punchin(employee,punchTime);
+ 		    		  a= implAttendence.punchin(employee,punchTime,location);
 	    		 }
   	         }
+  	         
 			return a;	
    	    }
 		 
-
+ 		@RequestMapping(value="/headInfo", method=RequestMethod.POST)
+ 		@ResponseBody
+ 		public void getHeadInfo(@RequestParam("headDesignation") String headDesignation,HttpServletRequest req,HttpServletResponse res) throws IOException
+ 		{
+ 			res.setContentType("text/html");
+		    PrintWriter writer = res.getWriter();
+ 		    List<Employee> employees = null;	
+ 		    System.out.println(headDesignation);
+ 		    employees = employeeRepo.findBydesignation(headDesignation); 
+ 		    System.out.println(employees);
+ 		    TreeSet<String> set1 = new TreeSet<>();
+ 		    if(employees != null)
+ 		    {
+ 		    	for(Employee employee : employees)
+	              {
+      			    set1.add(employee.getEmail()); 
+	              }
+ 		    	writer.print(set1.toString());
+	    		writer.flush(); 
+ 		    }
+ 		   
+ 		}
+ 		
 		public String isUserLogin()
 		{
 			return SecurityContextHolder.getContext().getAuthentication().getName();
