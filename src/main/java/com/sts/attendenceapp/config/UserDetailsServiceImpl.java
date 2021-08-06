@@ -15,12 +15,12 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	@Autowired
 	private EmployeeRepository employeeRepo;
 
-	@SuppressWarnings("null")
+	//@SuppressWarnings("null")
 	@Override
 	public UserDetails loadUserByUsername(String username) {
 		
 		CustomUserDetails customUserDetails = null;
- 			customUserDetails= IsUserExits(username);
+ 			customUserDetails = IsUserExits(username);
  			return customUserDetails;
  	}
 	

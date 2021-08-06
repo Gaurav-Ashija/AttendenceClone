@@ -31,6 +31,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sts.attendenceapp.entities.Attendence;
 import com.sts.attendenceapp.entities.ConfirmationToken;
 import com.sts.attendenceapp.entities.Department;
@@ -206,6 +209,22 @@ public class MyController {
 		  emp.setRole(empRole);
 		  emp.setDepartment(empDept);
 		  
+		  //String designation = emp.getDesignation().toUpperCase();
+		  String headEmail = emp.getHeadEmail();
+		  String fullName = headEmail.substring(0, headEmail.indexOf("@"));
+		  String headName = null;
+		  
+		  if(fullName.contains("."))
+		  {
+		      headName = fullName.replace(".", " ");
+		  }
+		  else
+		  {
+			  headName = fullName;
+		  }
+		  //emp.setDesignation(designation);
+		  emp.setHeadName(headName);
+		  
 		  Employee employee = null;
 		 
 			   employee = employeeRepo.save(emp);
@@ -292,13 +311,43 @@ public class MyController {
 	}
 	
 	@GetMapping("/hierarchy")
-	public String hierarchy(Model model)
+	public String hierarchy(Model model) throws JsonProcessingException
 	{   
+		int counter = 1; 
+	
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	   	 if (authentication != null) {
 	   		 String username = authentication.getName();
 	   		 Employee employee = employeeRepo.findByemail(username);
+	   		 String json = null;
+	   	 
+	   		 if(employee != null)
+	   		 {
+	   			 String fullName = employee.getFirstName() +" "+ employee.getLastName();
+	   			 ObjectMapper mapper = new ObjectMapper();
+	   			 ObjectNode json1 = mapper.createObjectNode();
+  				 json1.put("name", fullName);
+  				 json1.put("designation", employee.getDesignation());
+	   			 
+	   				 Employee head = employeeRepo.findByemail(employee.getHeadEmail());
+	   				 while(head != null)
+	   				 {
+	   				    String headName = head.getFirstName() +" "+head.getLastName();	 
+	   					ObjectNode json2 = mapper.createObjectNode();
+	   					json2.put("name", headName);
+	   					json2.put("designation", head.getDesignation());
+	   					json1.set("head"+counter, json2);
+	   					
+	   					head = employeeRepo.findByemail(head.getHeadEmail());
+	   					counter++;  
+	   				 }
+	   				 
+	   				json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json1);
+	   				System.out.println(json);
+	   		 }
+	   		
 	   		 model.addAttribute("user", employee);
+	   		 model.addAttribute("hierarchy", json);
 	   		 return "hierarchy";
 	        }
 	   	 else

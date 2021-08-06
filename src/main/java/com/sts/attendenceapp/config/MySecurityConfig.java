@@ -88,7 +88,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
  
 		http.authorizeRequests()
  		.antMatchers("/signin","/images/**","/css/**","/resetpassword","/reset","/admin/addAdmin").permitAll()
-		.antMatchers("/register","/do_register").hasAnyRole("USER","HR") //ok
+		.antMatchers("/register","/do_register").hasRole("HR") //ok
   		.antMatchers("/dashboard").hasAnyRole("USER","HR") //ok
   		.antMatchers("/hierarchy").hasAnyRole("USER","HR") //ok
    	

@@ -146,6 +146,16 @@
    
    <script>
     $(document).ready(function() {
+    	
+    	var code = {};
+    	$("#headDesignation > option").each(function () {
+    	    if(code[this.text]) {
+    	        $(this).remove();
+    	    } else {
+    	        code[this.text] = this.value;
+    	    }
+    	
+    	});
              
     	$('#headDesignation').on('change', function() {
     		  var headDesignation = this.value;
